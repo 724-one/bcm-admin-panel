@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input, Space, Button, Tooltip } from "antd";
 import { SearchOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import CustomTable from "../../components/common/Table/CustomTable";
+import CustomTable from "../../Components/Common/Table/CustomTable";
 import "../../styles/Users/Users.scss";
 import userImg from "../../assets/images/users.svg";
 import User1 from "../../assets/images/User1.png";
