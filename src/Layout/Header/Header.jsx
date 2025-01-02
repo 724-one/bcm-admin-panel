@@ -21,12 +21,12 @@ const Header = () => {
 
   return (
     <div className="main-header">
-      <div
+      {/* <div
         className="menu-icon"
         //onClick={showModal}
       >
         <FiMenu size={30} />
-      </div>
+      </div> */}
       <div className="haeder-content">
         {showSearch ? (
           <div className="search">

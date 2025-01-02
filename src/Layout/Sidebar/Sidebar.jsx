@@ -9,8 +9,9 @@ const Sidebar = () => {
   const currentPath = location.pathname;
 
   // Function to check if the current route should show Users tab as active
+
   const isActiveRoute = (path) => {
-    // Check if current path is users, user detail, or request list
+    // Check for Users related paths
     if (path === "/users") {
       return (
         currentPath === "/users" ||
@@ -18,6 +19,24 @@ const Sidebar = () => {
         currentPath.startsWith("/requestlist/")
       );
     }
+    // Check for Request related paths
+    if (path === "/request") {
+      return currentPath === "/request" || currentPath.startsWith("/request/");
+    }
+    // Check for Calculator related paths
+    if (path === "/calculator") {
+      return (
+        currentPath === "/calculator" || currentPath.startsWith("/calculator/")
+      );
+    }
+    // Check for Notification related paths
+    if (path === "/notification") {
+      return (
+        currentPath === "/notification" ||
+        currentPath.startsWith("/notification/")
+      );
+    }
+    // Default case for exact matches
     return currentPath === path;
   };
 

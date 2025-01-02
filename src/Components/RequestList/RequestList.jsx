@@ -1,126 +1,3 @@
-// import React from "react";
-// import CustomTable from "../../components/common/Table/CustomTable";
-// import { BsThreeDotsVertical } from "react-icons/bs";
-
-// const RequestList = () => {
-//   const columns = [
-//     {
-//       title: "Number of Request",
-//       dataIndex: "requestNumber",
-//       key: "requestNumber",
-//       className: "font-medium text-gray-900"
-//     },
-//     {
-//       title: "Request Name",
-//       dataIndex: "requestName",
-//       key: "requestName",
-//       className: "font-medium text-gray-900"
-//     },
-//     {
-//       title: "Date & Time",
-//       dataIndex: "dateTime",
-//       key: "dateTime",
-//       className: "font-medium text-gray-900"
-//     },
-//     {
-//       title: "Status",
-//       dataIndex: "status",
-//       key: "status",
-//       render: (status) => (
-//         <span
-//           className={`px-3 py-1 rounded-md ${
-//             status === "Uploaded"
-//               ? "bg-[#E8F5E9] text-[#1B5E1F]"
-//               : "bg-[#E81E1E26] text-[#E81E1E]"
-//           } text-sm font-medium`}
-//         >
-//           {status}
-//         </span>
-//       )
-//     }
-//   ];
-
-//   const data = [
-//     {
-//       key: "1",
-//       requestNumber: "001",
-//       requestName: "Luxury Apartment",
-//       dateTime: "25 March 2023, 12:42 AM",
-//       status: "Uploaded"
-//     },
-//     {
-//       key: "2",
-//       requestNumber: "002",
-//       requestName: "Luxury Apartment",
-//       dateTime: "35 Station Road London",
-//       status: "Pending"
-//     },
-//     {
-//       key: "3",
-//       requestNumber: "003",
-//       requestName: "Luxury Apartment",
-//       dateTime: "35 Station Road London",
-//       status: "Uploaded"
-//     },
-//     {
-//       key: "4",
-//       requestNumber: "004",
-//       requestName: "Luxury Apartment",
-//       dateTime: "35 Station Road London",
-//       status: "Pending"
-//     },
-//     {
-//       key: "5",
-//       requestNumber: "005",
-//       requestName: "Luxury Apartment",
-//       dateTime: "35 Station Road London",
-//       status: "Uploaded"
-//     }
-//   ];
-
-//   const dropdownItems = ["View", "Delete"];
-
-//   const handleDropdownAction = (action, record) => {
-//     switch (action) {
-//       case "View":
-//         // Handle view action
-//         console.log("View", record);
-//         break;
-//       case "Delete":
-//         // Handle delete action
-//         console.log("Delete", record);
-//         break;
-//       default:
-//         break;
-//     }
-//   };
-
-//   return (
-//     <div className="p-6 bg-gray-50 min-h-screen">
-//       <div className="mb-6">
-//         <h1 className="text-xl font-semibold flex items-center gap-2 text-gray-900">
-//           Request List
-//           <span className="text-[#E81E1E] bg-[#E81E1E26] px-2 py-0.5 rounded-md text-sm font-medium">
-//             (12)
-//           </span>
-//         </h1>
-//       </div>
-
-//       <div className="bg-white rounded-lg shadow-sm">
-//         <CustomTable
-//           columns={columns}
-//           data={data}
-//           dropdownItems={dropdownItems}
-//           onDropdownAction={handleDropdownAction}
-//           showDeleteIcon={false}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default RequestList;
-
 import React from "react";
 import { Table, Select } from "antd";
 import { BsThreeDotsVertical, BsThreeDots } from "react-icons/bs";
@@ -309,11 +186,61 @@ const RequestList = () => {
         .ant-table-tbody > tr:last-child > td {
           border-bottom: none !important;
         }
+
+        /* Remove all borders, hover, and focus effects from Select components */
+        .ant-select .ant-select-selector {
+          border: none !important;
+          box-shadow: none !important;
+          background-color: transparent !important;
+        }
+
+        .ant-select:hover .ant-select-selector,
+        .ant-select-focused .ant-select-selector,
+        .ant-select-open .ant-select-selector {
+          border: none !important;
+          box-shadow: none !important;
+          background-color: transparent !important;
+        }
+
+        /* Remove hover background effect */
+        .ant-select-item-option-active,
+        .ant-select-item-option:hover {
+          background-color: transparent !important;
+        }
+
+        /* Remove focus background effect */
+        .ant-select-item-option-selected {
+          background-color: transparent !important;
+        }
+        /* Style for Select text */
+        .ant-select .ant-select-selection-item {
+          font-weight: 600 !important;
+          color: #000000 !important;
+        }
+
+        /* Style for Select arrow */
+        .ant-select .ant-select-arrow {
+          color: #000000 !important;
+          font-weight: bold !important;
+        }
+
+        /* Style for dropdown options */
+        .ant-select-item-option-content {
+          font-weight: 600 !important;
+          color: #000000 !important;
+        }
+
+        /* Keep existing styles for removing borders */
+        .ant-select .ant-select-selector {
+          border: none !important;
+          box-shadow: none !important;
+          background-color: transparent !important;
+        }
       `}</style>
 
       {/* Table Pagination footer */}
       <div className="flex items-center justify-between px-4 py-2 mb-8 border-b bg-[#ffffff] mt-auto mb-5 border-t border-[#E0E0E0]">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ">
           <span className="text-sm text-gray-600">Items per page:</span>
           <Select
             defaultValue="12"
@@ -324,7 +251,7 @@ const RequestList = () => {
               { value: "36", label: "36" }
             ]}
           />
-          <span className="text-sm text-[#8A8A8A] ml-4">
+          <span className="text-sm text-[#8A8A8A] border-l border-gray-200 pl-4  py-2 h-8">
             1 - 12 of 40 items
           </span>
         </div>

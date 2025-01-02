@@ -113,26 +113,26 @@ const CustomTable = ({
 
       {/* Table Pagination footer */}
       <div className="flex items-center justify-between px-4 py-2 mb-8 border-t-2 border-b border-[#f3f4f6] bg-[#ffffff]">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ">
           <span className="text-sm text-gray-600">Items per page:</span>
           <Select
             defaultValue="12"
-            className="w-[60px]"
+            className="w-[60px] mt-1"
             options={[
               { value: "12", label: "12" },
               { value: "24", label: "24" },
               { value: "36", label: "36" }
             ]}
           />
-          <span className="text-sm text-[#8A8A8A] ml-4">
+          <span className="text-sm text-[#8A8A8A]  border-l border-gray-200 pl-4 py-2 h-8">
             1 - 12 of 40 items
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ">
           <Select
             defaultValue="01"
-            className="w-[60px]"
+            className="w-[60px] mt-1 flex   "
             options={[
               { value: "01", label: "01" },
               { value: "02", label: "02" },
@@ -152,6 +152,36 @@ const CustomTable = ({
           </div>
         </div>
       </div>
+      <style jsx global>{`
+        /* Only reduce padding for table body cells */
+        .ant-table-wrapper .ant-table-tbody > tr > td {
+          padding: 2px 2px !important; /* Reduced vertical padding */
+        }
+        /* Style for Select text */
+        .ant-select .ant-select-selection-item {
+          font-weight: 600 !important;
+          color: #000000 !important;
+        }
+
+        /* Style for Select arrow */
+        .ant-select .ant-select-arrow {
+          color: #000000 !important;
+          font-weight: bold !important;
+        }
+
+        /* Style for dropdown options */
+        .ant-select-item-option-content {
+          font-weight: 600 !important;
+          color: #000000 !important;
+        }
+
+        /* Keep existing styles for removing borders */
+        .ant-select .ant-select-selector {
+          border: none !important;
+          box-shadow: none !important;
+          background-color: transparent !important;
+        }
+      `}</style>
     </div>
   );
 };

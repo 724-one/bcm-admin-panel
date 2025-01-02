@@ -44,14 +44,14 @@ const UserDetail = () => {
       <div className="relative rounded-lg bg-white p-8 2xl:h-[676px] lg:h-[400px]  md:h-[380px] shadow-sm">
         {/* Close Button */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/users")}
           className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full "
         >
           <CloseOutlined className="text-gray-600" />
         </button>
 
         {/* User Header with Image */}
-        <div className="mb-12 flex w-[50%]   justify-between">
+        <div className="mb-12 flex w-[44%] ml-[55px]  justify-between">
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
             {userData.name}
           </h2>
