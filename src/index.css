@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+    /* overflow: auto !important; */
+  body {
+    font-family: 'Poppins', sans-serif !important;
+    /* overflow: hidden !important; */
+    overflow-y: hidden;
+  }
+ 
+   
+}
+@layer base {
+  html {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+.ant-btn-primary {
+  &:hover,
+  &:focus {
+    background-color: #E81E1E !important;  
+    border-color: #E81E1E !important;
+  }
+}
+.ant-upload-wrapper {
+  .ant-btn {
+    &:hover,
+    &:focus {
+      color: #6B7280 !important; 
+      border-color: #D1D5DB !important; 
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: none !important;
+    }
+  }
+}

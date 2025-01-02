@@ -1,0 +1,10 @@
+.ant-btn-primary {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #e81e1e !important;
+    border-color: #e81e1e !important;
+    box-shadow: none !important;
+  }
+}

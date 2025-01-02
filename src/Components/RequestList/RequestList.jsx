@@ -1,0 +1,359 @@
+// import React from "react";
+// import CustomTable from "../../components/common/Table/CustomTable";
+// import { BsThreeDotsVertical } from "react-icons/bs";
+
+// const RequestList = () => {
+//   const columns = [
+//     {
+//       title: "Number of Request",
+//       dataIndex: "requestNumber",
+//       key: "requestNumber",
+//       className: "font-medium text-gray-900"
+//     },
+//     {
+//       title: "Request Name",
+//       dataIndex: "requestName",
+//       key: "requestName",
+//       className: "font-medium text-gray-900"
+//     },
+//     {
+//       title: "Date & Time",
+//       dataIndex: "dateTime",
+//       key: "dateTime",
+//       className: "font-medium text-gray-900"
+//     },
+//     {
+//       title: "Status",
+//       dataIndex: "status",
+//       key: "status",
+//       render: (status) => (
+//         <span
+//           className={`px-3 py-1 rounded-md ${
+//             status === "Uploaded"
+//               ? "bg-[#E8F5E9] text-[#1B5E1F]"
+//               : "bg-[#E81E1E26] text-[#E81E1E]"
+//           } text-sm font-medium`}
+//         >
+//           {status}
+//         </span>
+//       )
+//     }
+//   ];
+
+//   const data = [
+//     {
+//       key: "1",
+//       requestNumber: "001",
+//       requestName: "Luxury Apartment",
+//       dateTime: "25 March 2023, 12:42 AM",
+//       status: "Uploaded"
+//     },
+//     {
+//       key: "2",
+//       requestNumber: "002",
+//       requestName: "Luxury Apartment",
+//       dateTime: "35 Station Road London",
+//       status: "Pending"
+//     },
+//     {
+//       key: "3",
+//       requestNumber: "003",
+//       requestName: "Luxury Apartment",
+//       dateTime: "35 Station Road London",
+//       status: "Uploaded"
+//     },
+//     {
+//       key: "4",
+//       requestNumber: "004",
+//       requestName: "Luxury Apartment",
+//       dateTime: "35 Station Road London",
+//       status: "Pending"
+//     },
+//     {
+//       key: "5",
+//       requestNumber: "005",
+//       requestName: "Luxury Apartment",
+//       dateTime: "35 Station Road London",
+//       status: "Uploaded"
+//     }
+//   ];
+
+//   const dropdownItems = ["View", "Delete"];
+
+//   const handleDropdownAction = (action, record) => {
+//     switch (action) {
+//       case "View":
+//         // Handle view action
+//         console.log("View", record);
+//         break;
+//       case "Delete":
+//         // Handle delete action
+//         console.log("Delete", record);
+//         break;
+//       default:
+//         break;
+//     }
+//   };
+
+//   return (
+//     <div className="p-6 bg-gray-50 min-h-screen">
+//       <div className="mb-6">
+//         <h1 className="text-xl font-semibold flex items-center gap-2 text-gray-900">
+//           Request List
+//           <span className="text-[#E81E1E] bg-[#E81E1E26] px-2 py-0.5 rounded-md text-sm font-medium">
+//             (12)
+//           </span>
+//         </h1>
+//       </div>
+
+//       <div className="bg-white rounded-lg shadow-sm">
+//         <CustomTable
+//           columns={columns}
+//           data={data}
+//           dropdownItems={dropdownItems}
+//           onDropdownAction={handleDropdownAction}
+//           showDeleteIcon={false}
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default RequestList;
+
+import React from "react";
+import { Table, Select } from "antd";
+import { BsThreeDotsVertical, BsThreeDots } from "react-icons/bs";
+import { IoMdArrowBack } from "react-icons/io";
+import { useNavigate, useParams } from "react-router-dom";
+import { GrNext, GrPrevious } from "react-icons/gr";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+
+const RequestList = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id);
+  console.log("Request List ID:", id);
+  const columns = [
+    {
+      title: "Number of Request",
+      dataIndex: "requestNumber",
+      key: "requestNumber",
+      className: "font-medium text-gray-900"
+    },
+    {
+      title: "Request Name",
+      dataIndex: "requestName",
+      key: "requestName",
+      className: "font-medium text-gray-900"
+    },
+    {
+      title: "Date & Time",
+      dataIndex: "dateTime",
+      key: "dateTime",
+      className: "font-medium text-gray-900"
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <span
+          className={`px-3 py-1 rounded-full ${
+            status === "Uploaded"
+              ? "bg-[#E8F5E9] text-[#1B5E1F]"
+              : "bg-[#E81E1E26] text-[#E81E1E]"
+          } text-sm font-medium`}
+        >
+          {status}
+        </span>
+      )
+    }
+    // {
+    //   title: "Actions",
+    //   key: "actions",
+    //   width: 80,
+    //   className: "text-center",
+    //   align: "center",
+    //   render: () => (
+    //     <div className="flex justify-center">
+    //       <BsThreeDots className="cursor-pointer text-gray-500 h-5 w-5" />
+    //     </div>
+    //   )
+    // }
+  ];
+
+  const data = [
+    {
+      key: "1",
+      requestNumber: "001",
+      requestName: "Luxury Apartment",
+      dateTime: "25 March 2023, 12:42 AM",
+      status: "Uploaded"
+    },
+    {
+      key: "2",
+      requestNumber: "002",
+      requestName: "Luxury Apartment",
+      dateTime: "35 Station Road London",
+      status: "Pending"
+    },
+    {
+      key: "3",
+      requestNumber: "003",
+      requestName: "Luxury Apartment",
+      dateTime: "35 Station Road London",
+      status: "Uploaded"
+    },
+    {
+      key: "4",
+      requestNumber: "004",
+      requestName: "Luxury Apartment",
+      dateTime: "35 Station Road London",
+      status: "Pending"
+    },
+    {
+      key: "5",
+      requestNumber: "005",
+      requestName: "Luxury Apartment",
+      dateTime: "35 Station Road London",
+      status: "Uploaded"
+    },
+    {
+      key: "6",
+      requestNumber: "006",
+      requestName: "Luxury Apartment",
+      dateTime: "35 Station Road London",
+      status: "Pending"
+    },
+    {
+      key: "7",
+      requestNumber: "007",
+      requestName: "Luxury Apartment",
+      dateTime: "35 Station Road London",
+      status: "Uploaded"
+    }
+  ];
+
+  const handleBack = () => {
+    navigate(`/users/${id}`);
+    //navigate("/users");
+  };
+  return (
+    <div className="p-6 pb-[100px] bg-gray-50 min-h-screen overflow-y-auto relative">
+      <div className="mb-6 p-3 flex items-center gap-2">
+        <IoMdArrowBack
+          className="back-arrow cursor-pointer text-[#E81E1E] w-[20px] h-[20px] font-bold"
+          onClick={handleBack}
+        />
+        <h1 className="text-xl font-semibold flex items-center gap-2 text-gray-900">
+          Request List
+          <span className="text-xl font-semibold flex items-center gap-2 text-gray-900">
+            (12)
+          </span>
+        </h1>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-sm">
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          className="overflow-hidden border-none"
+          rowClassName="hover:bg-gray-50"
+        />
+      </div>
+
+      {/* Add or update your global styles */}
+      <style jsx global>{`
+        .ant-table-wrapper .ant-table-thead > tr > th {
+          background: white;
+          font-weight: 600;
+          padding: 16px;
+          font-size: 14px;
+          color: #000000 !important;
+          border: none !important; /* Remove header borders */
+        }
+
+        /* Remove all table borders */
+        .ant-table {
+          border: none !important;
+        }
+
+        .ant-table-container {
+          border: none !important;
+        }
+
+        /* Remove cell borders */
+        .ant-table-cell {
+          border: none !important;
+          border-bottom: none !important;
+        }
+
+        /* Remove row borders */
+        .ant-table-tbody > tr > td {
+          border: none !important;
+        }
+
+        /* Remove the right border from header cells */
+        .ant-table-thead > tr > th::before {
+          display: none !important;
+        }
+
+        /* Remove table body borders */
+        .ant-table-tbody {
+          border: none !important;
+        }
+
+        /* Remove last row border */
+        .ant-table-tbody > tr:last-child > td {
+          border-bottom: none !important;
+        }
+      `}</style>
+
+      {/* Table Pagination footer */}
+      <div className="flex items-center justify-between px-4 py-2 mb-8 border-b bg-[#ffffff] mt-auto mb-5 border-t border-[#E0E0E0]">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-600">Items per page:</span>
+          <Select
+            defaultValue="12"
+            className="w-[60px]"
+            options={[
+              { value: "12", label: "12" },
+              { value: "24", label: "24" },
+              { value: "36", label: "36" }
+            ]}
+          />
+          <span className="text-sm text-[#8A8A8A] ml-4">
+            1 - 12 of 40 items
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Select
+            defaultValue="01"
+            className="w-[60px]"
+            options={[
+              { value: "01", label: "01" },
+              { value: "02", label: "02" },
+              { value: "03", label: "03" },
+              { value: "04", label: "04" },
+              { value: "05", label: "05" }
+            ]}
+          />
+          <span className="text-sm text-[#151515]">of 05 pages</span>
+          <div className="flex ml-2">
+            <button className="p-1 border-l hover:bg-gray-50">
+              <MdKeyboardArrowLeft className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-1 border-l hover:bg-gray-50">
+              <MdKeyboardArrowRight className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RequestList;

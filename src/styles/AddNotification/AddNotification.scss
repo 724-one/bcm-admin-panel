@@ -1,0 +1,25 @@
+/* Global styles to override Ant Design TextArea */
+.ant-input-textarea .ant-input,
+.ant-input-textarea,
+.ant-input-affix-wrapper,
+.ant-input {
+  border: 1px solid #d1d5db !important;
+  box-shadow: none !important;
+}
+
+.ant-input-textarea .ant-input:hover,
+.ant-input-textarea:hover,
+.ant-input-affix-wrapper:hover,
+.ant-input:hover {
+  border: 1px solid #d1d5db !important;
+  box-shadow: none !important;
+}
+
+.ant-input-textarea .ant-input:focus,
+.ant-input-textarea:focus,
+.ant-input-affix-wrapper:focus,
+.ant-input:focus,
+.ant-input-focused {
+  border: 1px solid #d1d5db !important;
+  box-shadow: none !important;
+}
