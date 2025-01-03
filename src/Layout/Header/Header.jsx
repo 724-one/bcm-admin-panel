@@ -38,7 +38,7 @@ const Header = () => {
         {showSearch ? (
           <div className="search">
             <Input
-              placeholder="Search by name or email"
+              placeholder="Search here"
               onPressEnter={handleSearch}
               prefix={
                 <IoSearchOutline
