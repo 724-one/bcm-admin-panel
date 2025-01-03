@@ -1,40 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
-
+import user1 from "../../assets/Images/user1.png";
 const RequestProfile = () => {
-  const { userId } = useParams();
+  const { id } = useParams(); // Change userId to id to match the route param
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const requestData = location.state?.requestData;
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Mock data - replace with API call
-        const data = {
-          name: "Mr. Thomas johnson",
-          propertyType: "Luxury Apartment",
-          requestType: "Property Creation",
-          status: "Pending",
-
-          dateSubmitted: "14-09-2024",
-          requests: "12",
-          image: "https://via.placeholder.com/64"
-        };
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [userId]);
-
-  if (loading) return <div>Loading...</div>;
-  if (!userData) return <div>User not found</div>;
+  // If no data is available, show error state
+  if (!requestData) {
+    return (
+      <div className="h-full w-full bg-gray-50 p-8">
+        <div className="text-center">No request data found</div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-full w-full bg-gray-50 p-12 overflow-y-auto">
@@ -56,11 +37,11 @@ const RequestProfile = () => {
         {/* User Header with Image */}
         <div className="mb-12 flex w-[50%]  justify-between">
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
-            {userData.name}
+            {requestData.name || "N/A"}
           </h2>
           <img
-            src={userData.image}
-            alt={userData.name}
+            src={requestData.image || user1}
+            alt={requestData.name || "N/A"}
             className="h-14 w-14 rounded-full object-cover"
           />
         </div>
@@ -69,7 +50,9 @@ const RequestProfile = () => {
         <div className="grid grid-cols-2 gap-x-[10rem] gap-y-8">
           <div className="flex gap-2 items-center">
             <span className="text-lg font-semibold text-[#1E1E1E]">Name:</span>
-            <span className="text-base text-[#1E1E1E]">{userData.name}</span>
+            <span className="text-base text-[#1E1E1E]">
+              {requestData.name || "N/A"}
+            </span>
           </div>
 
           <div className="flex gap-2 items-center">
@@ -77,7 +60,7 @@ const RequestProfile = () => {
               Request Type:
             </span>
             <span className="text-base text-[#1E1E1E]">
-              {userData.requestType}
+              {requestData.requestType || "N/A"}
             </span>
           </div>
           <div className="flex gap-2 items-center">
@@ -85,7 +68,7 @@ const RequestProfile = () => {
               Property Type:
             </span>
             <span className="text-base text-[#1E1E1E]">
-              {userData.propertyType}
+              {requestData.propertyType || "N/A"}
             </span>
           </div>
 
@@ -94,14 +77,16 @@ const RequestProfile = () => {
               Date Submitted:
             </span>
             <span className="text-base text-[#1E1E1E]">
-              {userData.dateSubmitted}
+              {requestData.dateSubmitted || "N/A"}
             </span>
           </div>
           <div className="flex gap-2 items-center">
             <span className="text-lg font-semibold text-[#1E1E1E]">
               Request Status:
             </span>
-            <span className="text-base text-[#1E1E1E]">{userData.status}</span>
+            <span className="text-base text-[#1E1E1E]">
+              {requestData.status || "N/A"}
+            </span>
           </div>
 
           <div className="flex gap-2 items-center">
@@ -109,7 +94,7 @@ const RequestProfile = () => {
               Number Of Request:
             </span>
             <span className="text-base text-[#1E1E1E]">
-              {userData.requests}
+              {requestData.requests || "N/A"}
             </span>
           </div>
         </div>
@@ -136,7 +121,9 @@ const RequestProfile = () => {
               <span className="text-lg font-semibold text-[#1E1E1E]">
                 How will foundation be dug? *
               </span>
-              <span className="text-base text-gray-900">Mechanically</span>
+              <span className="text-base text-gray-900">
+                {requestData.foundationBug || "N/A"}
+              </span>
             </div>
 
             {/* Second Strip Foundation */}
@@ -155,7 +142,9 @@ const RequestProfile = () => {
               <span className="text-lg font-semibold text-[#1E1E1E]">
                 Description
               </span>
-              <span className="text-base text-gray-900">Lorem Ipsum text</span>
+              <span className="text-base text-gray-900">
+                {requestData.description || "N/A"}
+              </span>
             </div>
           </div>
         </div>

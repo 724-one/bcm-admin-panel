@@ -76,11 +76,12 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/FirebaseConfig";
 import CalculatorCard from "../../Components/Common/Card/CalulatorCard";
 import { Modal, message } from "antd";
-
+import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
 const Calculator = () => {
   const navigate = useNavigate();
   const [calculatorItems, setCalculatorItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { searchValue } = useSearchContext();
 
   // Fetch calculators
   const fetchCalculators = async () => {
@@ -128,6 +129,13 @@ const Calculator = () => {
     });
   };
 
+  // Add this function to filter calculators
+  const filteredCalculators = calculatorItems.filter((item) =>
+    item.name.toLowerCase().includes(searchValue?.toLowerCase() || "")
+  );
+
+  console.log(filteredCalculators);
+
   return (
     <div className="h-full w-full bg-gray-50 p-6 overflow-y-auto">
       {/* Header with Add Button */}
@@ -150,10 +158,10 @@ const Calculator = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 pb-[40px] gap-6">
         {loading ? (
           <div>Loading...</div>
-        ) : calculatorItems.length === 0 ? (
+        ) : filteredCalculators.length === 0 ? (
           <div>No calculators found</div>
         ) : (
-          calculatorItems.map((item) => (
+          filteredCalculators.map((item) => (
             <CalculatorCard
               key={item.id}
               id={item.id}

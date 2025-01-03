@@ -17,10 +17,10 @@ const CustomTable = ({
 }) => {
   const handleDropdownClick = (item, record, event) => {
     if (event && event.stopPropagation) {
-      event.stopPropagation(); // Prevent row click when action button is clicked
+      event.stopPropagation();
     }
     if (onDropdownAction) {
-      onDropdownAction(item, record);
+      onDropdownAction(item, record); // Passing item and record in this order
     }
   };
 
@@ -99,7 +99,8 @@ const CustomTable = ({
       <Table
         // tableLayout="fixed"
         columns={dynamicColumns}
-        dataSource={data.map((item, index) => ({ ...item, key: index + 1 }))}
+        dataSource={data}
+        // dataSource={data.map((item, index) => ({ ...item, key: index + 1 }))}
         pagination={true}
         bordered
         rowClassName={(record, index) =>

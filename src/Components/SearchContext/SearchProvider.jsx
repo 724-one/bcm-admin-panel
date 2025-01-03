@@ -5,6 +5,7 @@ const SearchContext = createContext();
 
 export const SearchProvider = ({ children }) => {
   const [showSearch, setShowSearch] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
   const location = useLocation();
 
   // Routes where search should be hidden
@@ -30,7 +31,9 @@ export const SearchProvider = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <SearchContext.Provider value={{ showSearch, setShowSearch }}>
+    <SearchContext.Provider
+      value={{ showSearch, setShowSearch, searchValue, setSearchValue }}
+    >
       {children}
     </SearchContext.Provider>
   );

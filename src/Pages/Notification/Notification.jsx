@@ -184,12 +184,12 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/FirebaseConfig";
 import NotificationCard from "../../Components/Common/Card/NotificationCard";
 import { Modal, message } from "antd"; // Import Modal for confirmation
-
+import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
 const Notification = () => {
   const navigate = useNavigate();
   const [notificationItems, setNotificationItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { searchValue } = useSearchContext();
   // Fetch notifications
   const fetchNotifications = async () => {
     try {
@@ -237,6 +237,13 @@ const Notification = () => {
     });
   };
 
+  // Add this filtering logic
+  const filteredNotifications = notificationItems.filter(
+    (item) =>
+      item.title.toLowerCase().includes(searchValue?.toLowerCase() || "") ||
+      item.description.toLowerCase().includes(searchValue?.toLowerCase() || "")
+  );
+  console.log(filteredNotifications);
   return (
     <div className="h-full w-full bg-gray-50 p-6 overflow-y-auto">
       {/* Header with Add Button */}
@@ -259,10 +266,10 @@ const Notification = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pb-[40px]">
         {loading ? (
           <div>Loading...</div>
-        ) : notificationItems.length === 0 ? (
+        ) : filteredNotifications.length === 0 ? (
           <div>No notifications found</div>
         ) : (
-          notificationItems.map((item) => (
+          filteredNotifications.map((item) => (
             <NotificationCard
               key={item.id}
               id={item.id}
