@@ -9,3 +9,25 @@
 .heading-users {
   @include heading(600, left);
 }
+
+// notification text area
+/* Add this to your specific component CSS file */
+.custom-textarea {
+  border: 1px solid gray !important; /* Set the border color */
+  box-shadow: none !important; /* Remove box shadow */
+  outline: none !important; /* Remove outline */
+}
+
+.custom-textarea:hover,
+.custom-textarea:focus {
+  border-color: gray !important; /* Keep the border color the same on hover and focus */
+  box-shadow: none !important; /* Ensure no box shadow on focus */
+  outline: none !important; /* Remove outline on focus */
+}
+
+/* Ensure to target the Ant Design TextArea specifically */
+.ant-input.custom-textarea {
+  border: 1px solid gray !important; /* Set the border color */
+  box-shadow: none !important; /* Remove box shadow */
+  outline: none !important; /* Remove outline */
+}

@@ -11,7 +11,7 @@ import AddNotification from "../Components/AddNotification/AddNotification";
 import Requests from "../Pages/Requests/Requests";
 import RequestProfile from "../Components/RequestProfile/RequestProfile";
 import RequestList from "../Components/RequestList/RequestList";
-// rest of your routes code...
+import NotificationDetail from "../Components/Common/NotificationDetail/NotificationDetail";
 
 const RouterConfig = () => {
   const router = createBrowserRouter([
@@ -98,6 +98,14 @@ const RouterConfig = () => {
       element: (
         <AppLayout>
           <RequestList />
+        </AppLayout>
+      )
+    },
+    {
+      path: "/notification/:id",
+      element: (
+        <AppLayout>
+          <NotificationDetail />
         </AppLayout>
       )
     }

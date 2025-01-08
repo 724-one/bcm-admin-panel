@@ -213,29 +213,29 @@ const Notification = () => {
   }, []);
 
   // Handle delete notification
-  const handleDelete = (id) => {
-    Modal.confirm({
-      title: "Delete Notification",
-      content: "Are you sure you want to delete this notification?",
-      okText: "Yes",
-      okType: "danger",
-      cancelText: "No",
-      onOk: async () => {
-        try {
-          // Delete from Firestore
-          await deleteDoc(doc(db, "notifications", id));
+  // const handleDelete = (id) => {
+  //   Modal.confirm({
+  //     title: "Delete Notification",
+  //     content: "Are you sure you want to delete this notification?",
+  //     okText: "Yes",
+  //     okType: "danger",
+  //     cancelText: "No",
+  //     onOk: async () => {
+  //       try {
+  //         // Delete from Firestore
+  //         await deleteDoc(doc(db, "notifications", id));
 
-          // Update local state
-          setNotificationItems((prev) => prev.filter((item) => item.id !== id));
+  //         // Update local state
+  //         setNotificationItems((prev) => prev.filter((item) => item.id !== id));
 
-          message.success("Notification deleted successfully");
-        } catch (error) {
-          console.error("Error deleting notification:", error);
-          message.error("Failed to delete notification");
-        }
-      }
-    });
-  };
+  //         message.success("Notification deleted successfully");
+  //       } catch (error) {
+  //         console.error("Error deleting notification:", error);
+  //         message.error("Failed to delete notification");
+  //       }
+  //     }
+  //   });
+  // };
 
   // Add this filtering logic
   const filteredNotifications = notificationItems.filter(
@@ -243,7 +243,14 @@ const Notification = () => {
       item.title.toLowerCase().includes(searchValue?.toLowerCase() || "") ||
       item.description.toLowerCase().includes(searchValue?.toLowerCase() || "")
   );
-  console.log(filteredNotifications);
+  //console.log(filteredNotifications);
+
+  // Handle card click to navigate to the detail page
+  // src/Pages/Notification/Notification.jsx
+  const handleCardClick = (notification) => {
+    navigate(`/notification/${notification.id}`, { state: { notification } }); // Pass the entire notification object
+  };
+
   return (
     <div className="h-full w-full bg-gray-50 p-6 overflow-y-auto">
       {/* Header with Add Button */}
@@ -276,7 +283,8 @@ const Notification = () => {
               title={item.title}
               image={item.url}
               description={item.description}
-              onDelete={handleDelete}
+              onClick={() => handleCardClick(item)}
+              // onDelete={handleDelete}
             />
           ))
         )}

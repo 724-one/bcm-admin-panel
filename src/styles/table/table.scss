@@ -11,6 +11,11 @@
 .ant-dropdown .ant-dropdown-menu {
   margin-left: 30px;
 }
+/* In your relevant CSS file */
+.custom-select .ant-select-arrow {
+  width: 24px; /* Adjust the width as needed */
+  // height: 24px; /* Adjust the height as needed */
+}
 .ant-dropdown-menu-submenu .ant-dropdown-menu {
   padding: 4px;
   list-style-type: none;
@@ -402,4 +407,12 @@
       display: none !important;
     }
   }
+}
+
+.ant-table td {
+  font-size: 12px !important; /* Set the font size for table cells */
+}
+
+.ant-table th {
+  font-size: 12px !important; /* Optionally set the font size for table headers */
 }

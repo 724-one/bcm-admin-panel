@@ -62,6 +62,13 @@
     ) !important; // Adjust opacity as needed
   }
 }
+
+/* In your Login.scss or a relevant CSS file */
+.ant-input-login::placeholder {
+  color: rgba(21, 21, 21, 0.5); /* Tailwind's gray-500 color */
+  font-weight: bold;
+  // opacity: 1; /* Ensures the placeholder is fully opaque */
+}
 .login-button {
   margin-top: 1rem;
 }
@@ -166,6 +173,7 @@
       border: 1px solid #d1d5db !important;
       box-shadow: none !important;
       outline: none !important;
+      border-radius: 6px !important;
     }
 
     // Inner input in password field

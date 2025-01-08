@@ -10,7 +10,7 @@ export default {
         'custom': '0px 0px 4px 3px rgba(0, 0, 0, 0.1)',
       },
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
+        'poppins': ['Poppins'],
       },
     },
   },

@@ -60,7 +60,7 @@
 
 .search .custom-input {
   color: white; /* Change text color to white */
-  border-radius: 15px;
+  border-radius: 12px;
 }
 .search .custom-input .ant-input {
   // color: $darkGrey;
@@ -80,6 +80,7 @@
 }
 .custom-input input::placeholder {
   // color: $darkGrey;
+  color: #8a8a8a;
 }
 .right-icons {
   display: flex;

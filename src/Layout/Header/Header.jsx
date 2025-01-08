@@ -7,7 +7,7 @@ import { Modal, Input } from "antd";
 import "../../styles/Header/Header.scss";
 import SidebarComponent from "../Sidebar/Sidebar";
 import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
-
+import bell from "../../assets/Icons/bell.svg";
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation(); // Add this
@@ -58,7 +58,7 @@ const Header = () => {
 
         <div className="right-icons">
           <div className="notify">
-            <GoBell className="cursor-set w-[20px] h-[20px]" />
+            <img src={bell} className="cursor-set w-[25px] h-[25px]" />
           </div>
           <div className="user-a">A</div>
         </div>

@@ -118,14 +118,17 @@ const CustomTable = ({
           <span className="text-sm text-gray-600">Items per page:</span>
           <Select
             defaultValue="12"
-            className="w-[60px] mt-1"
+            className="w-[60px] mt-1 custom-select"
             options={[
               { value: "12", label: "12" },
               { value: "24", label: "24" },
               { value: "36", label: "36" }
             ]}
           />
-          <span className="text-sm text-[#8A8A8A]  border-l border-gray-200 pl-4 py-2 h-8">
+          <span
+            className="text-sm text-[#8A8A8A]  border-gray-200 pl-4 py-2 h-8"
+            style={{ borderLeft: "1.4px solid #E9E9E9" }}
+          >
             1 - 12 of 40 items
           </span>
         </div>
@@ -142,12 +145,18 @@ const CustomTable = ({
               { value: "05", label: "05" }
             ]}
           />
-          <span className="text-sm text-[#151515]">of 05 pages</span>
+          <span className="text-sm text-[#8A8A8A]">of 05 pages</span>
           <div className="flex ml-2">
-            <button className="p-1 border-l hover:bg-gray-50">
+            <button
+              className="p-1  hover:bg-gray-50"
+              style={{ borderLeft: "1.4px solid #E9E9E9" }}
+            >
               <MdKeyboardArrowLeft className="h-5 w-5 text-gray-600" />
             </button>
-            <button className="p-1 border-l hover:bg-gray-50">
+            <button
+              className="p-1 hover:bg-gray-50"
+              style={{ borderLeft: "1.4px solid #E9E9E9" }}
+            >
               <MdKeyboardArrowRight className="h-5 w-5 text-gray-600" />
             </button>
           </div>
@@ -156,6 +165,7 @@ const CustomTable = ({
       <style jsx global>{`
         /* Only reduce padding for table body cells */
         .ant-table-wrapper .ant-table-tbody > tr > td {
+        font-size:12px !important
           padding: 2px 2px !important; /* Reduced vertical padding */
         }
         /* Style for Select text */

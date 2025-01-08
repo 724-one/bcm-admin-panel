@@ -1,75 +1,3 @@
-// // ===========================================================================================
-
-// import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { collection, getDocs } from "firebase/firestore";
-// import { db } from "../../firebase/FirebaseConfig";
-// import CalculatorCard from "../../Components/Common/Card/CalulatorCard";
-
-// const Calculator = () => {
-//   const navigate = useNavigate();
-//   const [calculatorItems, setCalculatorItems] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   // Fetch data from Firestore
-//   useEffect(() => {
-//     const fetchCalculatorItems = async () => {
-//       try {
-//         const querySnapshot = await getDocs(collection(db, "calculators"));
-//         const items = querySnapshot.docs.map((doc) => ({
-//           id: doc.id,
-//           ...doc.data()
-//         }));
-//         setCalculatorItems(items);
-//         setLoading(false);
-//       } catch (error) {
-//         console.error("Error fetching calculator items:", error);
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchCalculatorItems();
-//   }, []);
-
-//   return (
-//     <div className="h-full w-full bg-gray-50 p-6 h-full w-full p-6 overflow-y-auto">
-//       {/* Header with Add Button */}
-//       <div className="mb-6 flex justify-between items-center">
-//         <h1 className="text-2xl font-semibold text-gray-900"></h1>
-//         <button
-//           onClick={() => navigate("/calculator/add")}
-//           className="group flex items-center gap-2 px-4 py-1 rounded-[10px] border-[1px] border-[#E81E1E] hover:bg-[#E81E1E] transition-colors duration-300"
-//         >
-//           <span className="text-2xl font-medium text-[#ED4B4B] group-hover:text-white transition-colors duration-300">
-//             +
-//           </span>
-//           <span className="text-base font-[600] text-[#E61E2C] group-hover:text-white transition-colors duration-300">
-//             Add New
-//           </span>
-//         </button>
-//       </div>
-
-//       {/* Grid Layout */}
-//       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 pb-[40px] gap-6">
-//         {loading ? (
-//           <div>Loading...</div>
-//         ) : (
-//           calculatorItems.map((item) => (
-//             <CalculatorCard
-//               key={item.id}
-//               title={item.name}
-//               image={item.url}
-//               onClick={() => navigate(`/calculator/${item.id}`)}
-//             />
-//           ))
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Calculator;
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
@@ -77,6 +5,7 @@ import { db } from "../../firebase/FirebaseConfig";
 import CalculatorCard from "../../Components/Common/Card/CalulatorCard";
 import { Modal, message } from "antd";
 import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
+import "../../styles/Button/Button.scss";
 const Calculator = () => {
   const navigate = useNavigate();
   const [calculatorItems, setCalculatorItems] = useState([]);
@@ -112,6 +41,11 @@ const Calculator = () => {
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
+      style: {
+        transform: "translate(110%, 40%)", // Start from the left
+        left: "0%", // Position it off-screen to the left
+        transition: "transform 0.3s ease-in-out" // Add transition for smooth effect
+      },
       onOk: async () => {
         try {
           // Delete from Firestore
@@ -129,6 +63,11 @@ const Calculator = () => {
     });
   };
 
+  const handleEdit = (id) => {
+    const calculatorToEdit = calculatorItems.find((item) => item.id === id);
+    navigate("/calculator/add", { state: { calculator: calculatorToEdit } });
+  };
+
   // Add this function to filter calculators
   const filteredCalculators = calculatorItems.filter((item) =>
     item.name.toLowerCase().includes(searchValue?.toLowerCase() || "")
@@ -143,12 +82,12 @@ const Calculator = () => {
         <h1 className="text-2xl font-semibold text-gray-900"></h1>
         <button
           onClick={() => navigate("/calculator/add")}
-          className="group flex items-center gap-2 px-4 py-1 rounded-[10px] border-[1px] border-[#E81E1E] hover:bg-[#E81E1E] transition-colors duration-300"
+          className="group flex items-center gap-2 px-4 py-2 rounded-[10px] border-[1px] border-[#E81E1E] hover:bg-[#E81E1E] transition-colors duration-300"
         >
-          <span className="text-2xl font-medium text-[#ED4B4B] group-hover:text-white transition-colors duration-300">
+          <span className="text-[16px] font-medium text-[#ED4B4B] group-hover:text-white transition-colors duration-300">
             +
           </span>
-          <span className="text-base font-[600] text-[#E61E2C] group-hover:text-white transition-colors duration-300">
+          <span className="text-[16px] font-[600] text-[#E61E2C] group-hover:text-white transition-colors duration-300">
             Add New
           </span>
         </button>
@@ -168,6 +107,7 @@ const Calculator = () => {
               title={item.name} // Using name instead of title
               image={item.url}
               onDelete={handleDelete}
+              onEdit={handleEdit}
             />
           ))
         )}

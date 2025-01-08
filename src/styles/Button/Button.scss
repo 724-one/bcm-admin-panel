@@ -8,3 +8,22 @@
     box-shadow: none !important;
   }
 }
+
+.ant-modal-root .ant-modal-wrap {
+  overflow: hidden !important; /* Use !important to enforce the rule */
+}
+.ant-modal-root .ant-modal-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden !important;
+  outline: 0;
+  -webkit-overflow-scrolling: touch;
+}
+.anticon .anticon-exclamation-circle {
+  color: #e81e1e !important;
+}
+
+.ant-modal-confirm-body > .anticon {
+  color: #e81e1e !important;
+}

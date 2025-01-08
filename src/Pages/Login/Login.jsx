@@ -8,9 +8,14 @@ import { HiOutlineEye, HiOutlineEyeOff, HiOutlineMail } from "react-icons/hi";
 import { FiLock } from "react-icons/fi";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 // import { useLogin } from "../../hooks/useHook";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setIsAuthenticated }) => {
+  let navigate = useNavigate();
+  const handleLogin = () => {
+    // setIsAuthenticated(true);
+    navigate("/users");
+  };
   return (
     <div className="login-container">
       <div className="login-top mb-6">
@@ -25,7 +30,8 @@ const Login = ({ setIsAuthenticated }) => {
           // onFinish={onFinish}
         >
           <Form.Item
-            label="Email"
+            label={<span className="font-semibold text-[16px]">Email</span>}
+            // label="Email"
             name="email"
             rules={[
               { required: true, message: "Please enter the correct email" },
@@ -36,19 +42,20 @@ const Login = ({ setIsAuthenticated }) => {
             ]}
           >
             <Input
-              className="ant-input-login"
+              className="ant-input-login  placeholder h-14"
               prefix={<HiOutlineMail className="prefix-icon" />}
               placeholder="Enter your email address"
             />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label={<span className="font-semibold text-[16px]">Password</span>}
             name="password"
+            // name="password"
             rules={[{ required: true, message: "Please input your Password!" }]}
           >
             <Input.Password
-              className="ant-input-login"
+              className="ant-input-login   placeholder h-14"
               prefix={<FiLock className="prefix-icon" />}
               placeholder="Enter your password"
               iconRender={(visible) =>
@@ -132,13 +139,17 @@ const Login = ({ setIsAuthenticated }) => {
                 type="primary"
                 htmlType="submit"
                 block
+                onClick={handleLogin}
                 // loading={loading}
               >
                 {/* {loading ? ( */}
-                <div className="loader-container font-semibold text-[24px] line-height-[36px]">
+                <div className="loader-container font-semibold text-[20px] line-height-[36px]">
                   {/* <Spin size="small" /> */}
                 </div>
-                {/* ) : ( */} Login
+                {/* ) : ( */}{" "}
+                <span className="loader-container font-semibold text-[22px] line-height-[36px]">
+                  Login
+                </span>
                 {/* )} */}
               </Button>
             </div>
