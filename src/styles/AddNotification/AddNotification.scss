@@ -23,3 +23,22 @@
   border: 1px solid #d1d5db !important;
   box-shadow: none !important;
 }
+/* Custom styles for input fields */
+.custom-input {
+  border: 1px solid rgba(158, 158, 158, 1); /* Set the border color */
+  outline: none; /* Remove the default outline */
+  transition: none; /* Disable transition effects */
+}
+
+/* Placeholder styling */
+.custom-input-des::placeholder {
+  color: rgba(21, 21, 21, 0.5); /* Change the placeholder color */
+  opacity: 1; /* Ensure the placeholder is fully opaque */
+}
+
+/* Remove hover and focus effects */
+.custom-input-des:hover,
+.custom-input-des:focus {
+  border: 1px solid rgba(158, 158, 158, 1); /* Keep the border the same on hover and focus */
+  box-shadow: none; /* Remove any box shadow */
+}

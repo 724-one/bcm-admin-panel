@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import UploadImg from "../../../assets/images/upload.svg";
 import { db } from "../../../firebase/FirebaseConfig";
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
-
+import "../../../styles/AddNotification/AddNotification.scss";
 const AddCalculator = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -133,7 +133,7 @@ const AddCalculator = () => {
           <div className="flex flex-col gap-2">
             <label className="text-sm font-bold text-gray-700">Title:</label>
             <Input
-              className="h-11 rounded-md "
+              className="h-11 rounded-md custom-input-des"
               placeholder="Enter Name"
               value={formData.title}
               onChange={(e) =>
