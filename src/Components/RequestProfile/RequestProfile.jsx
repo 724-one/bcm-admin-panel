@@ -160,7 +160,7 @@ const RequestProfile = () => {
                 Strip Foundation
               </span>
               <span className="text-base font-normal text-gray-900">
-                Length(feet) * 50{" "}
+                {requestData.length || "N/A"}(feet) * 50{" "}
                 <span className="text-xs text-[#1E1E1E]-500">in feet</span>
               </span>
             </div>
@@ -171,7 +171,7 @@ const RequestProfile = () => {
                 How will foundation be dug? *
               </span>
               <span className="text-base text-gray-900">
-                {requestData.foundationBug || "N/A"}
+                {requestData.foundationDug || "N/A"}
               </span>
             </div>
 
@@ -181,7 +181,7 @@ const RequestProfile = () => {
                 Strip Foundation
               </span>
               <span className="text-base text-gray-900">
-                Length(feet) * 50{" "}
+                {requestData.length || "N/A"}(feet) * 50{" "}
                 <span className="text-xs text-[#1E1E1E]-500">in feet</span>
               </span>
             </div>
