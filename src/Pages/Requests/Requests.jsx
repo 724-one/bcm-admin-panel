@@ -557,6 +557,7 @@ const Requests = () => {
           columns={columns}
           data={filteredRequests}
           loading={loading}
+          pagination={true}
           onChange={handleTableChange}
           dropdownItems={["View", "Delete"]}
           onDropdownAction={handleDropdownAction}

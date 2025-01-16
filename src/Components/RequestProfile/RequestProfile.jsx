@@ -5,7 +5,7 @@ import user1 from "../../assets/Images/user1.png";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/FirebaseConfig";
 import "../../../src/App.css";
-import { Select, Button, message } from "antd";
+import { Select, Button, message, Upload, Avatar } from "antd";
 const RequestProfile = () => {
   const { id } = useParams(); // Change userId to id to match the route param
   const navigate = useNavigate();
@@ -40,6 +40,34 @@ const RequestProfile = () => {
     }
   };
 
+  const handleUpload = async () => {
+    if (!file) {
+      message.error("Please select a file to upload.");
+      return;
+    }
+
+    const storage = getStorage();
+    const storageRef = ref(storage, `documents/${file.name}`);
+
+    try {
+      await uploadBytes(storageRef, file);
+      message.success("File uploaded successfully!");
+      setFile(null); // Clear the file input after upload
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      message.error("Failed to upload file.");
+    }
+  };
+
+  const handleChange = (info) => {
+    if (info.file.status === "done") {
+      setFile(info.file.originFileObj); // Set the selected file
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
+
   return (
     <div className="h-full w-full bg-gray-50 p-12 overflow-y-auto">
       {/* Page Title */}
@@ -62,11 +90,24 @@ const RequestProfile = () => {
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
             {requestData.name || "N/A"}
           </h2>
-          <img
-            src={requestData.image || user1}
-            alt={requestData.name || "N/A"}
-            className="h-14 w-14 rounded-full object-cover"
-          />
+          {requestData.image ? (
+            <img
+              src={requestData.image}
+              alt={requestData.name}
+              className="h-14 w-14 rounded-full object-cover"
+            />
+          ) : (
+            <Avatar
+              size={56}
+              className=""
+              style={{
+                color: "white",
+                backgroundColor: "rgba(232, 30, 30, 1)"
+              }}
+            >
+              N/A
+            </Avatar>
+          )}
         </div>
 
         {/* User Details Grid */}
@@ -121,15 +162,15 @@ const RequestProfile = () => {
               style={{
                 width: 120,
                 borderRadius: "20px",
+
                 border: "none", // Remove border
                 // backgroundColor: "rgba(232, 30, 30, 0.17)", // Set background color to light red
                 color: "#E81E1E"
               }} // Adjust width as needed
-              // dropdownStyle={{ backgroundColor: "#FEE2E2" }}
               className="custom-select"
             >
               <Select.Option value="Pending">Pending</Select.Option>
-              <Select.Option value="Approved">Approved</Select.Option>
+              <Select.Option value="Uploaded">Uploaded</Select.Option>
               <Select.Option value="Rejected">Rejected</Select.Option>
             </Select>
           </div>
@@ -197,10 +238,40 @@ const RequestProfile = () => {
             </div>
           </div>
           {/* Upload Documents Button */}
-          <div className="mt-8 flex justify-center items-center">
+          {/* <div className="mt-8 flex justify-center items-center">
             <Button type="primary" className="bg-red-500">
               Upload Documents
             </Button>
+          </div> */}
+
+          <div className="mt-8 flex flex-col items-center">
+            <Upload
+              onChange={handleChange}
+              showUploadList={false} // Hide default upload list
+              beforeUpload={() => false} // Prevent automatic upload
+            >
+              <Button
+                type="primary"
+                className="bg-red-500  custom-upload-button"
+                style={{
+                  width: "400px"
+                  //   color: "white", // Set text color to white
+                  //   borderColor: "transparent", // Remove border color
+                  //   backgroundColor: "#ff4d4f", // Set background color (red)
+                  //   boxShadow: "none"
+                }}
+              >
+                Upload Documents
+              </Button>
+            </Upload>
+            {/* <Button
+              type="primary"
+              className="bg-red-500 mt-2"
+              onClick={handleUpload}
+              style={{ width: "200px" }}
+            >
+              Upload Documents
+            </Button> */}
           </div>
         </div>
       </div>

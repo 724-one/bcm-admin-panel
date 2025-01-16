@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
-
+import { Avatar } from "antd";
 const UserDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,11 +40,26 @@ const UserDetail = () => {
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
             {userData.name}
           </h2>
-          <img
+          {/* <img
             src={userData.image || "https://via.placeholder.com/64"}
             alt={userData.name}
             className="h-14 w-14 rounded-full object-cover"
-          />
+          /> */}
+
+          {userData.image ? (
+            <img
+              src={userData.image}
+              alt={userData.name}
+              className="h-14 w-14 rounded-full object-cover"
+            />
+          ) : (
+            <Avatar
+              size={56}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              N/A
+            </Avatar>
+          )}
         </div>
 
         {/* User Details Grid */}
