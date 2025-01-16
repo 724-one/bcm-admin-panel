@@ -19,16 +19,17 @@ const CalculatorCard = ({ id, title, image, onDelete, onEdit }) => {
         className="absolute top-2 right-2 z-50 p-2 bg-red-500 rounded-full hover:bg-red-600 transition-colors duration-300"
       >
         <DeleteOutlined className="text-white text-lg" />
-      </button> */}
+      // </button> h-[200px] */}
       <Card
         hoverable
-        className="overflow-hidden lg:rounded-t-lg sm:rounged-md transition-transform hover:scale-[1.02] h-[200px]"
+        className="overflow-hidden lg:rounded-t-lg sm:rounged-md transition-transform hover:scale-[1.02] h-[160px]"
         style={{
           borderTopLeftRadius: "18.75px",
           borderTopRightRadius: "18.75px"
         }}
+        // 144px
         cover={
-          <div className="aspect-[4/3] overflow-hidden h-[144px]">
+          <div className="aspect-[4/2] overflow-hidden h-[100px]">
             <img
               src={image}
               alt={title}
@@ -37,7 +38,7 @@ const CalculatorCard = ({ id, title, image, onDelete, onEdit }) => {
           </div>
         }
       >
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-10">
           <span className="text-base font-medium text-gray-900">{title}</span>
           <div className="flex space-x-2">
             <img

@@ -96,6 +96,34 @@ input.addCalc-input:focus {
   box-shadow: none; /* Ensure no box shadow on focus */
   outline: none; /* Remove outline on focus */
 }
+
+
+
+.custom-select .ant-select-selector {
+  border: none !important; /* Remove border */
+  background-color: rgba(232, 30, 30, 0.17) !important; /* Set background color */
+  color: #E81E1E !important; /* Set text color */
+  border-radius: 20px; /* Match rounded corners */
+  padding: 5px 10px; /* Match padding */
+  font-family: Poppins;
+font-size: 14px;
+font-weight: 500;
+line-height: 21px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
+}
+
+.custom-select .ant-select-arrow {
+  
+  color: rgba(27, 31, 38, 0.72) ; /* Change this to your desired color */
+}
+
+.custom-select .ant-select-selector:focus {
+  border: none !important; /* Ensure no border on focus */
+  box-shadow: none !important; /* Remove any box shadow */
+}
 /*.logo {
   height: 6em;
   padding: 1.5em;
@@ -131,5 +159,7 @@ input.addCalc-input:focus {
 .read-the-docs {
   color: #888;
 } */
+
+
 
 

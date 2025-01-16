@@ -336,12 +336,30 @@ const Requests = () => {
     }
   };
 
+  const handleStatusChange = (id, newStatus) => {
+    setRequests((prevRequests) =>
+      prevRequests.map((request) =>
+        request.id === id ? { ...request, status: newStatus } : request
+      )
+    );
+  };
+
   // Handle view action
   const handleView = (record) => {
     console.log("Viewing request:", record);
-    navigate(`/request/${record.id}`, {
-      state: { requestData: record }
-    });
+    navigate(
+      `/request/${record.id}`,
+      {
+        state: { requestData: record }
+      },
+      {
+        state: {
+          requestData: record,
+          onStatusChange: (newStatus) =>
+            handleStatusChange(record.id, newStatus)
+        }
+      }
+    );
   };
 
   // Handle dropdown actions
@@ -469,26 +487,26 @@ const Requests = () => {
             {statusValue || "N/A"}
           </span>
         );
-      },
-      filters: [
-        {
-          text: "Uploaded",
-          value: "uploaded"
-        },
-        {
-          text: "Pending",
-          value: "pending"
-        }
-      ],
-      onFilter: (value, record) => {
-        // Check both status fields for filtering
-        const statusValue = (
-          record.status ||
-          record["status "] ||
-          ""
-        ).toLowerCase();
-        return statusValue === value;
       }
+      // filters: [
+      //   {
+      //     text: "Uploaded",
+      //     value: "uploaded"
+      //   },
+      //   {
+      //     text: "Pending",
+      //     value: "pending"
+      //   }
+      // ],
+      // onFilter: (value, record) => {
+      //   // Check both status fields for filtering
+      //   const statusValue = (
+      //     record.status ||
+      //     record["status "] ||
+      //     ""
+      //   ).toLowerCase();
+      //   return statusValue === value;
+      // }
     },
     {
       title: "Action",

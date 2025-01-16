@@ -299,8 +299,8 @@ const Users = () => {
         >
           <div
             style={{
-              width: "40px",
-              height: "40px",
+              width: "45px",
+              height: "45px",
               position: "relative",
               flexShrink: 0
             }}

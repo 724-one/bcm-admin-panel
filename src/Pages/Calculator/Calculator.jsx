@@ -94,7 +94,7 @@ const Calculator = () => {
       </div>
 
       {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 pb-[40px] gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 pb-[40px] gap-6">
         {loading ? (
           <div>Loading...</div>
         ) : filteredCalculators.length === 0 ? (

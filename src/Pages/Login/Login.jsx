@@ -135,21 +135,15 @@ const Login = ({ setIsAuthenticated }) => {
           <Form.Item>
             <div className="login-button">
               <Button
-                className="primary-btn p-2 "
+                className="primary-btn p-2 loader-container font-semibold text-[22px] line-height-[36px] "
                 type="primary"
                 htmlType="submit"
                 block
                 onClick={handleLogin}
                 // loading={loading}
               >
-                {/* {loading ? ( */}
-                <div className="loader-container font-semibold text-[20px] line-height-[36px]">
-                  {/* <Spin size="small" /> */}
-                </div>
-                {/* ) : ( */}{" "}
-                <span className="loader-container font-semibold text-[22px] line-height-[36px]">
-                  Login
-                </span>
+                Login
+                {/* <span className="">Login</span> */}
                 {/* )} */}
               </Button>
             </div>
