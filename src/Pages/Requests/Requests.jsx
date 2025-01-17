@@ -273,7 +273,7 @@ import User1 from "../../assets/images/User1.png";
 import TotalInfoCard from "../../Components/Common/TotalInfoCard/TotalInfoCard";
 import { useNavigate } from "react-router-dom";
 import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
-
+import "../../styles/Requets/Requests.scss";
 const Requests = () => {
   const [loading, setLoading] = useState(false);
   const [requestData, setRequestData] = useState([]);
@@ -303,7 +303,7 @@ const Requests = () => {
       setLoading(true);
       const requestsCollection = collection(db, "requests");
       const requestSnapshot = await getDocs(requestsCollection);
-
+      console.log(requestSnapshot);
       const requests = requestSnapshot.docs.map((doc) => ({
         key: doc.id,
         id: doc.id,
@@ -372,57 +372,57 @@ const Requests = () => {
   };
 
   const columns = [
-    {
-      title: "Image",
-      dataIndex: "image",
-      key: "image",
-      align: "center",
-      render: () => (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "8px 0",
-            minWidth: "60px",
-            position: "relative"
-          }}
-        >
-          <div
-            style={{
-              width: "40px",
-              height: "40px",
-              position: "relative",
-              flexShrink: 0
-            }}
-          >
-            <img
-              src={User1}
-              alt="user"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                borderRadius: "50%",
-                objectFit: "cover"
-              }}
-            />
-          </div>
-        </div>
-      ),
-      responsive: ["sm", "md", "lg", "xl", "xxl"],
-      width: {
-        xxl: 100,
-        xl: 90,
-        lg: 80,
-        md: 70,
-        sm: 60,
-        xs: 50
-      }
-    },
+    // {
+    //   title: "Image",
+    //   dataIndex: "image",
+    //   key: "image",
+    //   align: "center",
+    //   render: () => (
+    //     <div
+    //       style={{
+    //         width: "100%",
+    //         display: "flex",
+    //         justifyContent: "center",
+    //         alignItems: "center",
+    //         padding: "8px 0",
+    //         minWidth: "60px",
+    //         position: "relative"
+    //       }}
+    //     >
+    //       <div
+    //         style={{
+    //           width: "40px",
+    //           height: "40px",
+    //           position: "relative",
+    //           flexShrink: 0
+    //         }}
+    //       >
+    //         <img
+    //           src={User1}
+    //           alt="user"
+    //           style={{
+    //             position: "absolute",
+    //             top: 0,
+    //             left: 0,
+    //             width: "100%",
+    //             height: "100%",
+    //             borderRadius: "50%",
+    //             objectFit: "cover"
+    //           }}
+    //         />
+    //       </div>
+    //     </div>
+    //   ),
+    //   responsive: ["sm", "md", "lg", "xl", "xxl"],
+    //   width: {
+    //     xxl: 100,
+    //     xl: 90,
+    //     lg: 80,
+    //     md: 70,
+    //     sm: 60,
+    //     xs: 50
+    //   }
+    // },
     {
       title: "Name",
       dataIndex: "name",
@@ -435,10 +435,22 @@ const Requests = () => {
       key: "requestType"
     },
     {
-      title: "Property Type",
-      dataIndex: "propertyType",
-      key: "propertyType"
+      title: "Length",
+      dataIndex: "length",
+      key: "length"
     },
+    {
+      title: "Supported by Form",
+      dataIndex: "supportedByForms",
+      key: "supportedByForms",
+      render: (supportedByForms) => (supportedByForms ? "Yes" : "No")
+    },
+
+    // {
+    //   title: "Property Type",
+    //   dataIndex: "propertyType",
+    //   key: "propertyType"
+    // },
     {
       title: "Date Submitted",
       dataIndex: "dateSubmitted",
@@ -543,7 +555,7 @@ const Requests = () => {
   };
 
   return (
-    <div className="users-container h-full w-full p-6 overflow-y-auto">
+    <div className="request-container h-full w-full p-6 overflow-y-auto">
       <div className="heading-users">Requests</div>
       <div className="flex justify-between items-center mb-6">
         <TotalInfoCard
@@ -562,6 +574,7 @@ const Requests = () => {
           dropdownItems={["View", "Delete"]}
           onDropdownAction={handleDropdownAction}
           onRowClick={(record) => handleView(record)}
+          className="custom-table-padding"
         />
       </div>
     </div>

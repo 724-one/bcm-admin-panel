@@ -1,0 +1,11 @@
+/* src/styles/Requests/Requests.scss */
+.request-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  //   align-items: center;
+}
+
+.request-container .ant-table-wrapper .ant-table-tbody > tr > td {
+  padding: 10px 10px !important; /* Adjust the padding as needed */
+}

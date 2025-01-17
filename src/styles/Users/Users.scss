@@ -31,3 +31,7 @@
   box-shadow: none !important; /* Remove box shadow */
   outline: none !important; /* Remove outline */
 }
+/* src/styles/Requests/Requests.scss */
+.users-container .ant-table-wrapper .ant-table-tbody > tr > td {
+  padding: 2px 2px !important; /* Adjust the padding as needed */
+}

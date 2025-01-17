@@ -76,8 +76,8 @@ const NotificationDetail = () => {
       cancelText: "No",
       bodyStyle: { overflow: "hidden" },
       style: {
-        transform: "translate(110%, 40%)", // Start from the left
-        left: "0%", // Position it off-screen to the left
+        // transform: "translate(110%, 40%)", // Start from the left
+        // left: "0%", // Position it off-screen to the left
         transition: "transform 0.3s ease-in-out" // Add transition for smooth effect
       },
       onOk: async () => {
