@@ -1,59 +1,24 @@
-// working code for add calculator with image
 import React, { useState } from "react";
-import { Input, Button, Upload, message } from "antd";
+import { Input, Button, Upload, message, Modal } from "antd";
 import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import UploadImg from "../../../assets/images/upload.svg";
 import { db } from "../../../firebase/FirebaseConfig";
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import "../../../styles/AddNotification/AddNotification.scss";
+
 const AddCalculator = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  console.log(location); // Log the entire location object
-
   const { calculator } = location.state || {};
-  console.log(calculator);
-  // const [formData, setFormData] = useState({
-  //   title: "",
-  //   image: null
-  // });
-  const defaultImageUrl =
-    "https://dummyimage.com/300x200/000/fff&text=Hello+World";
+
+  // const defaultImageUrl =
+  //   "https://dummyimage.com/300x200/000/fff&text=Hello+World";
   const [formData, setFormData] = useState({
     title: calculator ? calculator.name : "", // Prefill title if editing
     image: calculator ? calculator.url : null
   });
-
-  // const handleSubmit = async () => {
-  //   if (!formData.title) {
-  //     message.error("Please enter a title");
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-
-  //     // Create calculator data with dummy image URL regardless of upload
-  //     const calculatorData = {
-  //       name: formData.title,
-  //       url: "https://dummyimage.com/300x200/000/fff&text=Hello+World", // Always use dummy image
-  //       createdAt: new Date().toISOString()
-  //     };
-
-  //     // Add to Firestore
-  //     await addDoc(collection(db, "calculators"), calculatorData);
-
-  //     message.success("Calculator added successfully");
-  //     navigate("/calculator");
-  //   } catch (error) {
-  //     console.error("Error adding calculator:", error);
-  //     message.error("Failed to add calculator");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async () => {
     if (!formData.title) {
@@ -66,29 +31,20 @@ const AddCalculator = () => {
 
       const calculatorData = {
         name: formData.title,
-        url: calculator
-          ? calculator.url
-          : "https://dummyimage.com/300x200/000/fff&text=Hello+World",
+        url: formData.image, // Use uploaded image or default
         createdAt: new Date().toISOString()
       };
-
-      if (formData.image) {
-        // Handle image upload logic here if needed
-      }
 
       if (calculator) {
         // Update existing calculator
         await updateDoc(doc(db, "calculators", calculator.id), calculatorData);
+        message.success("Calculator updated successfully");
       } else {
         // Add new calculator
         await addDoc(collection(db, "calculators"), calculatorData);
+        message.success("Calculator added successfully");
       }
 
-      message.success(
-        calculator
-          ? "Calculator updated successfully"
-          : "Calculator added successfully"
-      );
       navigate("/calculator");
     } catch (error) {
       console.error("Error saving calculator:", error);
@@ -98,8 +54,35 @@ const AddCalculator = () => {
     }
   };
 
+  // const handleDeleteImage = () => {
+  //   setFormData({ ...formData, image: null }); // Reset to default image URL
+  // };\
   const handleDeleteImage = () => {
-    setFormData({ ...formData, image: defaultImageUrl }); // Reset to default image URL
+    Modal.confirm({
+      title: "Delete Image",
+      content: "Are you sure you want to delete this image?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          // Update the form data to remove the image
+          setFormData({ ...formData, image: null });
+
+          // If editing, update Firestore to remove the image URL
+          if (calculator) {
+            await updateDoc(doc(db, "calculators", calculator.id), {
+              url: null // Set the URL to null
+            });
+          }
+
+          message.success("Image deleted successfully");
+        } catch (error) {
+          console.error("Error deleting image:", error);
+          message.error("Failed to delete image");
+        }
+      }
+    });
   };
 
   const handleUpload = (file) => {
@@ -139,32 +122,18 @@ const AddCalculator = () => {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              //className="h-11 rounded-md addCalc-input " // Add the custom-input class
             />
           </div>
-
-          {/* Display Prefilled Image */}
-          {/* {formData.image && (
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-gray-700">
-                Current Image:
-              </label>
-              <img
-                src={formData.image}
-                alt="Current"
-                className="h-32 w-full object-cover mb-2"
-              />
-            </div>
-          )} */}
 
           {/* Display Prefilled Image Filename */}
           {calculator && calculator.url ? (
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="text-gray-800">
-                  {calculator.url &&
-                    calculator.url.split("https://dummyimage.com/300x200/000/")}
-                </span>{" "}
+                  {calculator.url.split("/").pop()}
+                  {/* {calculator.url &&
+                    calculator.url.split("https://dummyimage.com/300x200/000/")} */}
+                </span>
                 <DeleteOutlined
                   className="text-red-500 cursor-pointer"
                   onClick={handleDeleteImage}
@@ -180,15 +149,7 @@ const AddCalculator = () => {
             <label className="text-sm font-bold text-gray-700">
               Upload Image:
             </label>
-            <Upload
-              maxCount={1}
-              beforeUpload={handleUpload}
-              // beforeUpload={(file) => {
-              //   setFormData({ ...formData, image: file });
-              //   return false;
-              // }}
-              className="w-full"
-            >
+            <Upload maxCount={1} beforeUpload={handleUpload} className="w-full">
               <Button className="flex h-11 w-full items-center justify-start border-gray-300 text-gray-500">
                 <span>
                   <img src={UploadImg} alt="upload" />
