@@ -281,7 +281,7 @@ const Requests = () => {
   const { searchValue } = useSearchContext();
   const navigate = useNavigate();
 
-  console.log("requestDataValue", requestData);
+  console.log("requestData", requestData);
 
   // Filtered requests using useMemo
   const filteredRequests = useMemo(() => {
@@ -425,14 +425,14 @@ const Requests = () => {
     // },
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "userName",
+      key: "userName",
       sorter: (a, b) => a.name.localeCompare(b.name)
     },
     {
       title: "Request Type",
-      dataIndex: "requestType",
-      key: "requestType"
+      dataIndex: "requestName",
+      key: "requestName"
     },
     {
       title: "Length",

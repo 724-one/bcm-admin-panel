@@ -3,16 +3,21 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
 import user1 from "../../assets/Images/user1.png";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase/FirebaseConfig";
+import { db, storage } from "../../firebase/FirebaseConfig";
 import "../../../src/App.css";
-import { Select, Button, message, Upload, Avatar } from "antd";
+import { Select, Button, message, Upload, Avatar, Spin } from "antd";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 const RequestProfile = () => {
   const { id } = useParams(); // Change userId to id to match the route param
   const navigate = useNavigate();
   const location = useLocation();
   const requestData = location.state?.requestData;
   const [status, setStatus] = useState(requestData.status || "N/A");
+  const [file, setFile] = useState(null);
+  const [fileLoading, setFileLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
+  console.log("requestData", requestData);
   // If no data is available, show error state
   if (!requestData) {
     return (
@@ -31,40 +36,105 @@ const RequestProfile = () => {
       message.success("Status updated successfully");
 
       // Call the callback to update the status in the Requests component
-      if (onStatusChange) {
-        onStatusChange(value);
-      }
+      // if (onStatusChange) {
+      //   onStatusChange(value);
+      // }
     } catch (error) {
       console.error("Error updating status:", error);
       message.error("Failed to update status");
     }
   };
 
-  const handleUpload = async () => {
-    if (!file) {
-      message.error("Please select a file to upload.");
-      return;
-    }
+  // const handleFileChange = ({ file }) => {
+  //   if (file.type === "application/pdf") {
+  //     setFile(file);
+  //   } else {
+  //     message.error("Please upload a valid PDF file.");
+  //   }
+  // };
 
-    const storage = getStorage();
-    const storageRef = ref(storage, `documents/${file.name}`);
+  // const handleSubmit = async () => {
+  //   setFileLoading(true);
+  //   if (!file) {
+  //     message.error("Please upload a file before submitting.");
+  //     setFileLoading(false);
+  //     return;
+  //   }
+  //   if (!id) {
+  //     message.error("UID is missing. Cannot update the document.");
+  //     setFileLoading(false);
+  //     return;
+  //   }
 
-    try {
-      await uploadBytes(storageRef, file);
-      message.success("File uploaded successfully!");
-      setFile(null); // Clear the file input after upload
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      message.error("Failed to upload file.");
-    }
-  };
+  //   try {
+  //     setFileLoading(true);
+  //     const fileName = `reqDocuments/${file.name}`;
+  //     const storageRef = ref(storage, fileName);
+
+  //     await uploadBytes(storageRef, file.originFileObj);
+  //     const downloadURL = await getDownloadURL(storageRef);
+
+  //     const docRef = doc(db, "requests", id);
+  //     await updateDoc(docRef, {
+  //       approvedReports: downloadURL,
+  //       status: "Uploaded",
+  //     });
+
+  //     message.success("File uploaded and URL saved successfully.");
+  //     setFile(null);
+  //     setFileLoading(false);
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //     setFileLoading(false);
+  //     message.error("Failed to upload file.");
+  //   }
+  // };
+
+  ///////new code
 
   const handleChange = (info) => {
     if (info.file.status === "done") {
-      setFile(info.file.originFileObj); // Set the selected file
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
+      setSelectedFile(info.file.originFileObj);
+    }
+  };
+
+  const beforeUpload = (file) => {
+    const isPdf = file.type === "application/pdf";
+    if (!isPdf) {
+      message.error("You can only upload PDF files!");
+    }
+    return isPdf;
+  };
+
+  const handleSubmit = async () => {
+    setFileLoading(true);
+    if (!selectedFile) {
+      message.error("No file selected for upload");
+      setFileLoading(false);
+      return;
+    }
+
+    const uniqueId = Date.now().toString();
+    const storageRef = ref(
+      storage,
+      `requests/${uniqueId}_${selectedFile.name}`
+    );
+
+    try {
+      await uploadBytes(storageRef, selectedFile);
+      const fileURL = await getDownloadURL(storageRef);
+      const docRef = doc(db, "requests", id);
+      await updateDoc(docRef, {
+        approvedReports: fileURL,
+        status: "Uploaded",
+      });
+      setFileLoading(false);
+      message.success("File uploaded successfully");
+      navigate("/request");
+    } catch (error) {
+      setFileLoading(false);
+      message.error("File upload failed");
+      console.error("Error uploading file: ", error);
     }
   };
 
@@ -88,12 +158,12 @@ const RequestProfile = () => {
         {/* User Header with Image */}
         <div className="mb-12 flex w-[50%]  justify-between">
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
-            {requestData.name || "N/A"}
+            {requestData.userName || "N/A"}
           </h2>
           {requestData.image ? (
             <img
               src={requestData.image}
-              alt={requestData.name}
+              alt={requestData.userName}
               className="h-14 w-14 rounded-full object-cover"
             />
           ) : (
@@ -102,7 +172,7 @@ const RequestProfile = () => {
               className=""
               style={{
                 color: "white",
-                backgroundColor: "rgba(232, 30, 30, 1)"
+                backgroundColor: "rgba(232, 30, 30, 1)",
               }}
             >
               N/A
@@ -115,7 +185,7 @@ const RequestProfile = () => {
           <div className="flex gap-2 items-center">
             <span className="text-lg font-semibold text-[#1E1E1E]">Name:</span>
             <span className="text-base text-[#1E1E1E]">
-              {requestData.name || "N/A"}
+              {requestData.userName || "N/A"}
             </span>
           </div>
 
@@ -124,7 +194,7 @@ const RequestProfile = () => {
               Request Type:
             </span>
             <span className="text-base text-[#1E1E1E]">
-              {requestData.requestType || "N/A"}
+              {requestData.requestName || "N/A"}
             </span>
           </div>
           <div className="flex gap-2 items-center">
@@ -132,7 +202,7 @@ const RequestProfile = () => {
               Property Type:
             </span>
             <span className="text-base text-[#1E1E1E]">
-              {requestData.propertyType || "N/A"}
+              {requestData.foundationDug || "N/A"}
             </span>
           </div>
 
@@ -165,7 +235,7 @@ const RequestProfile = () => {
 
                 border: "none", // Remove border
                 // backgroundColor: "rgba(232, 30, 30, 0.17)", // Set background color to light red
-                color: "#E81E1E"
+                color: "#E81E1E",
               }} // Adjust width as needed
               className="custom-select"
             >
@@ -189,91 +259,124 @@ const RequestProfile = () => {
           </div>
         </div>
         {/* Request Data Section */}
-        <div className="mt-10 border-t border-[#E0E0E0] pt-10">
-          <h3 className="mb-6 text-lg font-semibold text-gray-900">
-            Request Data
-          </h3>
+        <Spin spinning={fileLoading}>
+          <div className="mt-10 border-t border-[#E0E0E0] pt-10">
+            <h3 className="mb-6 text-lg font-semibold text-gray-900">
+              Request Data
+            </h3>
 
-          <div className="grid grid-cols-2 gap-x-5 gap-y-6 ml-20">
-            {/* Strip Foundation */}
-            <div className="flex flex-col gap-1 ">
-              <span className="text-lg font-semibold text-[#1E1E1E]">
-                Strip Foundation
-              </span>
-              <span className="text-base font-normal text-gray-900">
-                {requestData.length || "N/A"}(feet) * 50{" "}
-                <span className="text-xs text-[#1E1E1E]-500">in feet</span>
-              </span>
-            </div>
+            <div className="grid grid-cols-2 gap-x-5 gap-y-6 ml-20">
+              {/* Strip Foundation */}
+              <div className="flex flex-col gap-1 ">
+                <span className="text-lg font-semibold text-[#1E1E1E]">
+                  Strip Foundation
+                </span>
+                <span className="text-base font-normal text-gray-900">
+                  {requestData.length || "N/A"}(feet) * 15{" "}
+                  <span className="text-xs text-[#1E1E1E]-500">in feet</span>
+                </span>
+              </div>
 
-            {/* How will foundation be dug */}
-            <div className="flex flex-col gap-1 ">
-              <span className="text-lg font-semibold text-[#1E1E1E]">
-                How will foundation be dug? *
-              </span>
-              <span className="text-base text-gray-900">
-                {requestData.foundationDug || "N/A"}
-              </span>
-            </div>
+              {/* How will foundation be dug */}
+              <div className="flex flex-col gap-1 ">
+                <span className="text-lg font-semibold text-[#1E1E1E]">
+                  How will foundation be dug? *
+                </span>
+                <span className="text-base text-gray-900">
+                  {requestData.foundationDug || "N/A"}
+                </span>
+              </div>
 
-            {/* Second Strip Foundation */}
-            <div className="flex flex-col gap-1 ">
-              <span className="text-lg font-semibold text-[#1E1E1E]">
-                Strip Foundation
-              </span>
-              <span className="text-base text-gray-900">
-                {requestData.length || "N/A"}(feet) * 50{" "}
-                <span className="text-xs text-[#1E1E1E]-500">in feet</span>
-              </span>
-            </div>
+              {/* Second Strip Foundation */}
+              <div className="flex flex-col gap-1 ">
+                <span className="text-lg font-semibold text-[#1E1E1E]">
+                  Strip Foundation
+                </span>
+                <span className="text-base text-gray-900">
+                  {requestData.length || "N/A"}(feet) * 15{" "}
+                  <span className="text-xs text-[#1E1E1E]-500">in feet</span>
+                </span>
+              </div>
 
-            {/* Description */}
-            <div className="flex flex-col gap-1 ">
-              <span className="text-lg font-semibold text-[#1E1E1E]">
-                Description
-              </span>
-              <span className="text-base text-gray-900">
-                {requestData.description || "N/A"}
-              </span>
+              {/* Description */}
+              <div className="flex flex-col gap-1 ">
+                <span className="text-lg font-semibold text-[#1E1E1E]">
+                  Description
+                </span>
+                <span className="text-base text-gray-900">
+                  {requestData.description || "N/A"}
+                </span>
+              </div>
             </div>
-          </div>
-          {/* Upload Documents Button */}
-          {/* <div className="mt-8 flex justify-center items-center">
+            {/* Upload Documents Button */}
+            {/* <div className="mt-8 flex justify-center items-center">
             <Button type="primary" className="bg-red-500">
               Upload Documents
             </Button>
           </div> */}
 
-          <div className="mt-8 flex flex-col items-center">
-            <Upload
-              onChange={handleChange}
-              showUploadList={false} // Hide default upload list
-              beforeUpload={() => false} // Prevent automatic upload
-            >
-              <Button
-                type="primary"
-                className="bg-red-500  custom-upload-button"
-                style={{
-                  width: "400px"
-                  //   color: "white", // Set text color to white
-                  //   borderColor: "transparent", // Remove border color
-                  //   backgroundColor: "#ff4d4f", // Set background color (red)
-                  //   boxShadow: "none"
-                }}
+            {requestData?.status === "Uploaded" ? null : (
+                <div className="mt-8 flex flex-col items-center">
+                  {/* <Upload
+                accept="application/pdf"
+                onChange={handleChange}
+                showUploadList={true} // Hide default upload list
+                beforeUpload={() => false} // Prevent automatic upload
               >
-                Upload Documents
-              </Button>
-            </Upload>
-            {/* <Button
-              type="primary"
-              className="bg-red-500 mt-2"
-              onClick={handleUpload}
-              style={{ width: "200px" }}
-            >
-              Upload Documents
-            </Button> */}
+                <Button
+                  type="primary"
+                  className="bg-red-500  custom-upload-button"
+                  style={{
+                    width: "400px",
+                    //   color: "white", // Set text color to white
+                    //   borderColor: "transparent", // Remove border color
+                    //   backgroundColor: "#ff4d4f", // Set background color (red)
+                    //   boxShadow: "none"
+                  }}
+                >
+                  Upload Documents..
+                </Button>
+              </Upload> */}
+
+                  {/* <Upload
+                  accept="application/pdf"
+                  onChange={handleFileChange}
+                  // showUploadList={true}
+                  showUploadList={!!file}
+                  beforeUpload={() => false}
+                > */}
+                  <Upload
+                    accept="application/pdf"
+                    beforeUpload={beforeUpload}
+                    showUploadList={true}
+                    onChange={handleChange}
+                    customRequest={({ file, onSuccess }) => {
+                      onSuccess("ok");
+                    }}
+                  >
+                    <Button
+                      type="primary"
+                      className="bg-red-500 custom-upload-button"
+                      style={{
+                        width: "400px",
+                      }}
+                    >
+                      Upload Documents..
+                    </Button>
+                  </Upload>
+                  <Button
+                    type="primary"
+                    onClick={handleSubmit}
+                    style={{ marginTop: "20px" }}
+                  >
+                    Submit
+                  </Button>
+                  {/* {file && ( */}
+                  {/* )} */}
+                </div>
+            )}
           </div>
-        </div>
+        </Spin>
       </div>
     </div>
   );

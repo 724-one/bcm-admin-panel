@@ -149,7 +149,9 @@ const AddCalculator = () => {
             <label className="text-sm font-bold text-gray-700">
               Upload Image:
             </label>
-            <Upload maxCount={1} beforeUpload={handleUpload} className="w-full">
+            <Upload 
+            accept="image/*"
+            maxCount={1} beforeUpload={handleUpload} className="w-full">
               <Button className="flex h-11 w-full items-center justify-start border-gray-300 text-gray-500">
                 <span>
                   <img src={UploadImg} alt="upload" />
