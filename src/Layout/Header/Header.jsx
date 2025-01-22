@@ -57,9 +57,9 @@ const Header = () => {
         )}
 
         <div className="right-icons">
-          <div className="notify">
+          {/* <div className="notify">
             <img src={bell} className="cursor-set w-[25px] h-[25px]" />
-          </div>
+          </div> */}
           <div className="user-a">A</div>
         </div>
       </div>

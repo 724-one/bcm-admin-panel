@@ -7,11 +7,12 @@ import { db } from "../../firebase/FirebaseConfig";
 import CustomTable from "../../Components/Common/Table/CustomTable";
 import "../../styles/Users/Users.scss";
 import userImg from "../../assets/images/users.svg";
-import User1 from "../../assets/images/User1.png";
+// import User1 from "../../assets/images/User1.png";
 import TotalInfoCard from "../../Components/Common/TotalInfoCard/TotalInfoCard";
 import { useNavigate } from "react-router-dom";
 import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
 import { useMemo } from "react";
+import { image } from "../../assets/images";
 
 const Users = () => {
   const [loading, setLoading] = useState(false);
@@ -34,14 +35,15 @@ const Users = () => {
   }, [userData, searchValue]);
   const navigate = useNavigate();
 
+  console.log("filteredUsers", filteredUsers);
   // Define columns configuration
   const columns = [
     {
       title: "Image",
-      dataIndex: "image",
-      key: "image",
+      dataIndex: "photo",
+      key: "photo",
       align: "center",
-      render: () => (
+      render: (photo) => (
         <div
           style={{
             width: "100%",
@@ -50,7 +52,7 @@ const Users = () => {
             alignItems: "center",
             padding: "8px 0",
             minWidth: "60px",
-            position: "relative"
+            position: "relative",
           }}
         >
           <div
@@ -58,12 +60,12 @@ const Users = () => {
               width: "45px",
               height: "45px",
               position: "relative",
-              flexShrink: 0
+              flexShrink: 0,
             }}
           >
             <img
-              src={User1}
-              alt="user"
+              src={photo || image?.User1}
+              alt="Profile"
               style={{
                 position: "absolute",
                 top: 0,
@@ -71,7 +73,7 @@ const Users = () => {
                 width: "100%",
                 height: "100%",
                 borderRadius: "50%",
-                objectFit: "cover"
+                objectFit: "cover",
               }}
             />
           </div>
@@ -84,30 +86,30 @@ const Users = () => {
         lg: 80,
         md: 70,
         sm: 60,
-        xs: 50
-      }
+        xs: 50,
+      },
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      sorter: (a, b) => a.name.localeCompare(b.name)
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: "Email",
       dataIndex: "email",
-      key: "email"
+      key: "email",
     },
     {
       title: "Date Submitted",
       dataIndex: "createdAt",
       key: "createdAt",
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
     },
     {
       title: "No. of Requests",
       dataIndex: "requests",
-      key: "requests"
+      key: "requests",
     },
     {
       title: "Action",
@@ -130,8 +132,8 @@ const Users = () => {
             />
           </Tooltip>
         </Space>
-      )
-    }
+      ),
+    },
   ];
 
   // // Fetch users from Firestore
@@ -171,7 +173,7 @@ const Users = () => {
         ...doc.data(),
         createdAt:
           doc.data().createdAt?.toDate().toISOString().split("T")[0] || "",
-        requests: `${doc.data().totalRequests || 0} Requests`
+        requests: `${doc.data().totalRequests || 0} Requests`,
       }));
 
       setUserData(users);
@@ -197,11 +199,12 @@ const Users = () => {
       email: record.email,
       createdAt: record.createdAt,
       totalRequests: record.totalRequests,
-      requests: record.requests
+      requests: record.requests,
+      photo: record?.photo || "",
     };
 
     navigate(`/users/${record.id}`, {
-      state: { userData }
+      state: { userData },
     });
   };
 

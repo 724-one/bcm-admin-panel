@@ -45,11 +45,10 @@ const UserDetail = () => {
             alt={userData.name}
             className="h-14 w-14 rounded-full object-cover"
           /> */}
-
-          {userData.image ? (
+          {userData.photo ? (
             <img
-              src={userData.image}
-              alt={userData.name}
+              src={userData.photo}
+              alt={userData.photo}
               className="h-14 w-14 rounded-full object-cover"
             />
           ) : (
@@ -60,6 +59,9 @@ const UserDetail = () => {
               N/A
             </Avatar>
           )}
+          {/* <Avatar size={56} src={userData?.photo || null}>
+            {userData?.photo ? null : "NO"}
+          </Avatar>{" "} */}
         </div>
 
         {/* User Details Grid */}
@@ -98,7 +100,7 @@ const UserDetail = () => {
               <button
                 onClick={() =>
                   navigate(`/requestlist/${userData.id}`, {
-                    state: { userData } // Pass userData to RequestList
+                    state: { userData }, // Pass userData to RequestList
                   })
                 }
                 //  onClick={() => navigate(`/requestlist/${userData.id}`)}

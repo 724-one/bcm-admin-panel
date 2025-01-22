@@ -305,11 +305,12 @@ const RequestList = () => {
   const userData = location.state?.userData; // Get userData from navigation state
   console.log(userData);
   // Fetch requests for specific user
+
   const fetchUserRequests = async () => {
     try {
       setLoading(true);
       const requestsRef = collection(db, "requests");
-      const q = query(requestsRef, where("userId", "==", id));
+      const q = query(requestsRef, where("userUid", "==", id));
       const querySnapshot = await getDocs(q);
 
       const requests = querySnapshot.docs.map((doc) => ({
@@ -317,7 +318,7 @@ const RequestList = () => {
         requestNumber: doc.data().requestNumber || "001",
         requestName: doc.data().name || "N/A",
         dateTime: doc.data().dateSubmitted || "N/A",
-        status: doc.data().status || doc.data()["status "] || "Pending"
+        status: doc.data().status || doc.data()["status "] || "Pending",
       }));
 
       console.log("Fetched requests:", requests);
@@ -340,19 +341,19 @@ const RequestList = () => {
       title: "Number of Request",
       dataIndex: "requestNumber",
       key: "requestNumber",
-      className: "font-medium text-gray-900"
+      className: "font-medium text-gray-900",
     },
     {
       title: "Request Name",
       dataIndex: "requestName",
       key: "requestName",
-      className: "font-medium text-gray-900"
+      className: "font-medium text-gray-900",
     },
     {
       title: "Date & Time",
       dataIndex: "dateTime",
       key: "dateTime",
-      className: "font-medium text-gray-900"
+      className: "font-medium text-gray-900",
     },
     {
       title: "Status",
@@ -368,13 +369,13 @@ const RequestList = () => {
         >
           {status}
         </span>
-      )
-    }
+      ),
+    },
   ];
 
   const handleBack = () => {
     navigate(`/users/${id}`, {
-      state: { userData } // Pass the userData back to UserDetail
+      state: { userData }, // Pass the userData back to UserDetail
     });
     // navigate(`/users/${id}`);
   };
@@ -415,7 +416,7 @@ const RequestList = () => {
             options={[
               { value: "12", label: "12" },
               { value: "24", label: "24" },
-              { value: "36", label: "36" }
+              { value: "36", label: "36" },
             ]}
           />
           <span className="text-sm text-[#8A8A8A] border-l border-gray-200 pl-4  py-2 h-8">
@@ -528,7 +529,7 @@ const RequestList = () => {
               { value: "02", label: "02" },
               { value: "03", label: "03" },
               { value: "04", label: "04" },
-              { value: "05", label: "05" }
+              { value: "05", label: "05" },
             ]}
           />
           <span className="text-sm text-[#151515]">of 05 pages</span>

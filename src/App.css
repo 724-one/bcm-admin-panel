@@ -154,7 +154,7 @@ text-decoration-skip-ink: none;
 
 /* Add this to your CSS file */
 .ant-modal {
-  top: 50% !important; /* Adjust this value as needed */
+  top: 30% !important; /* Adjust this value as needed */
   /* left: 80%; */
   margin-left: 30%;
   /* transform: translate(50% , 40%); Center the modal vertically */
@@ -162,7 +162,7 @@ text-decoration-skip-ink: none;
 
 .ant-modal-root .ant-modal-wrap {
   position: fixed;
-  left: 40%;
+  left: 35%;
   /* inset: 0; */
   z-index: 1000;
   overflow: hidden !important;

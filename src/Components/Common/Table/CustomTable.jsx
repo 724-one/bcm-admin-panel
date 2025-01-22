@@ -362,7 +362,7 @@ const CustomTable = ({
               { value: "05", label: "05" }
             ]}
           />
-          <span className="text-sm text-[#8A8A8A]">of 05 pages</span>
+          <span className="text-sm text-[#8A8A8A]">of {currentPage} pages</span>
           <div className="flex ml-2">
             <button
               className="p-1 hover:bg-gray-50"

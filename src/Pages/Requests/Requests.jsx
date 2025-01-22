@@ -291,9 +291,9 @@ const Requests = () => {
     const searchTerm = searchValue.toLowerCase();
     return requestData.filter(
       (request) =>
-        request.name?.toLowerCase().includes(searchTerm) ||
-        request.requestType?.toLowerCase().includes(searchTerm) ||
-        request.propertyType?.toLowerCase().includes(searchTerm)
+        request.userName?.toLowerCase().includes(searchTerm) ||
+        request.requestName?.toLowerCase().includes(searchTerm) ||
+        request.length?.toLowerCase().includes(searchTerm)
     );
   }, [requestData, searchValue]);
 

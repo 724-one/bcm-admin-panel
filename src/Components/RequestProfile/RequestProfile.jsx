@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
 import user1 from "../../assets/Images/user1.png";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase/FirebaseConfig";
 import "../../../src/App.css";
 import { Select, Button, message, Upload, Avatar, Spin } from "antd";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import ViewPDF from "../modals/ViewPDF";
 const RequestProfile = () => {
   const { id } = useParams(); // Change userId to id to match the route param
   const navigate = useNavigate();
@@ -16,6 +17,29 @@ const RequestProfile = () => {
   const [file, setFile] = useState(null);
   const [fileLoading, setFileLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [singleUserData, setSingleUserData] = useState();
+
+  const fetchUserProfile = async () => {
+    try {
+      const userDocRef = doc(db, "users", requestData.userUid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        setSingleUserData(userData);
+
+        console.log("Fetched user data:", singgleUserData);
+      } else {
+        console.warn("No user found with the given ID.");
+      }
+    } catch (error) {
+      console.error("Error fetching user document:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
 
   console.log("requestData", requestData);
   // If no data is available, show error state
@@ -160,106 +184,103 @@ const RequestProfile = () => {
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
             {requestData.userName || "N/A"}
           </h2>
-          {requestData.image ? (
-            <img
-              src={requestData.image}
-              alt={requestData.userName}
-              className="h-14 w-14 rounded-full object-cover"
-            />
+          {singleUserData ? (
+            singleUserData.photo ? (
+              <img
+                src={singleUserData.photo}
+                alt="User Photo"
+                className="h-14 w-14 rounded-full object-cover"
+              />
+            ) : (
+              <Avatar
+                size={56}
+                style={{
+                  color: "white",
+                  backgroundColor: "rgba(232, 30, 30, 1)",
+                }}
+              >
+                N/A
+              </Avatar>
+            )
           ) : (
-            <Avatar
-              size={56}
-              className=""
-              style={{
-                color: "white",
-                backgroundColor: "rgba(232, 30, 30, 1)",
-              }}
-            >
-              N/A
-            </Avatar>
+            <p>Loading...</p> // Placeholder while data is loading
           )}
         </div>
 
         {/* User Details Grid */}
-        <div className="grid grid-cols-2 gap-x-[10rem] gap-y-8">
-          <div className="flex gap-2 items-center">
-            <span className="text-lg font-semibold text-[#1E1E1E]">Name:</span>
-            <span className="text-base text-[#1E1E1E]">
-              {requestData.userName || "N/A"}
-            </span>
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <span className="text-lg font-semibold text-[#1E1E1E]">
-              Request Type:
-            </span>
-            <span className="text-base text-[#1E1E1E]">
-              {requestData.requestName || "N/A"}
-            </span>
-          </div>
-          <div className="flex gap-2 items-center">
-            <span className="text-lg font-semibold text-[#1E1E1E]">
-              Property Type:
-            </span>
-            <span className="text-base text-[#1E1E1E]">
-              {requestData.foundationDug || "N/A"}
-            </span>
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <span className="text-lg font-semibold text-[#1E1E1E]">
-              Date Submitted:
-            </span>
-            <span className="text-base text-[#1E1E1E]">
-              {requestData.dateSubmitted || "N/A"}
-            </span>
-          </div>
-          {/* <div className="flex gap-2 items-center">
-            <span className="text-lg font-semibold text-[#1E1E1E]">
-              Request Status:
-            </span> */}
-
-          {/* Request Status */}
-          <div className="flex gap-2 items-center">
-            <span className="text-lg font-semibold text-[#1E1E1E]">
-              Request Status:
-            </span>
-            <Select
-              value={status}
-              onChange={handleStatusChange}
-              // value={requestData.status || "N/A"}
-              // onChange={handleStatusChange}
-              style={{
-                width: 120,
-                borderRadius: "20px",
-
-                border: "none", // Remove border
-                // backgroundColor: "rgba(232, 30, 30, 0.17)", // Set background color to light red
-                color: "#E81E1E",
-              }} // Adjust width as needed
-              className="custom-select"
-            >
-              <Select.Option value="Pending">Pending</Select.Option>
-              <Select.Option value="Uploaded">Uploaded</Select.Option>
-              <Select.Option value="Rejected">Rejected</Select.Option>
-            </Select>
-          </div>
-          {/* <span className="text-base text-[#1E1E1E]">
-              {requestData.status || "N/A"}
-            </span> */}
-          {/* </div> */}
-
-          <div className="flex gap-2 items-center">
-            <span className="text-lg font-semibold text-[#1E1E1E]">
-              Number Of Request:
-            </span>
-            <span className="text-base text-[#1E1E1E]">
-              {requestData.requests || "N/A"}
-            </span>
-          </div>
-        </div>
-        {/* Request Data Section */}
         <Spin spinning={fileLoading}>
+          <div className="grid grid-cols-2 gap-x-[10rem] gap-y-8">
+            <div className="flex gap-2 items-center">
+              <span className="text-lg font-semibold text-[#1E1E1E]">
+                Name:
+              </span>
+              <span className="text-base text-[#1E1E1E]">
+                {requestData.userName || "N/A"}
+              </span>
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <span className="text-lg font-semibold text-[#1E1E1E]">
+                Request Type:
+              </span>
+              <span className="text-base text-[#1E1E1E]">
+                {requestData.requestName || "N/A"}
+              </span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <span className="text-lg font-semibold text-[#1E1E1E]">
+                Property Type:
+              </span>
+              <span className="text-base text-[#1E1E1E] w-50%">
+                {requestData.foundationDug || "N/A"}
+              </span>
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <span className="text-lg font-semibold text-[#1E1E1E]">
+                Date Submitted:
+              </span>
+              <span className="text-base text-[#1E1E1E]">
+                {requestData.dateSubmitted || "N/A"}
+              </span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <span className="text-lg font-semibold text-[#1E1E1E]">
+                Request Status:
+              </span>
+
+              <Select
+                disabled={requestData.status === "Uploaded" ? true : false}
+                value={status}
+                onChange={handleStatusChange}
+                // value={requestData.status || "N/A"}
+                // onChange={handleStatusChange}
+                style={{
+                  width: 120,
+                  borderRadius: "20px",
+
+                  border: "none", // Remove border
+                  // backgroundColor: "rgba(232, 30, 30, 0.17)", // Set background color to light red
+                  color: "#E81E1E",
+                }} // Adjust width as needed
+                className="custom-select"
+              >
+                <Select.Option value="Pending">Pending</Select.Option>
+                <Select.Option value="Uploaded">Uploaded</Select.Option>
+                <Select.Option value="Rejected">Rejected</Select.Option>
+              </Select>
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <span className="text-lg font-semibold text-[#1E1E1E]">
+                Number Of Request:
+              </span>
+              <span className="text-base text-[#1E1E1E] ">
+                {requestData.requests || "N/A"}
+              </span>
+            </div>
+          </div>
+          {/* Request Data Section */}
           <div className="mt-10 border-t border-[#E0E0E0] pt-10">
             <h3 className="mb-6 text-lg font-semibold text-gray-900">
               Request Data
@@ -280,32 +301,61 @@ const RequestProfile = () => {
               {/* How will foundation be dug */}
               <div className="flex flex-col gap-1 ">
                 <span className="text-lg font-semibold text-[#1E1E1E]">
-                  How will foundation be dug? *
+                  {/* How will foundation be dug? * */}
+                  Will the sides of foundation be supported by forms? *
                 </span>
                 <span className="text-base text-gray-900">
-                  {requestData.foundationDug || "N/A"}
+                  {/* {requestData.foundationDug || "N/A"} */}
+                  {requestData?.supportedByForms ? "YES" : "NO"}
                 </span>
               </div>
 
               {/* Second Strip Foundation */}
               <div className="flex flex-col gap-1 ">
                 <span className="text-lg font-semibold text-[#1E1E1E]">
-                  Strip Foundation
+                  How will foundation be dug? *
                 </span>
                 <span className="text-base text-gray-900">
-                  {requestData.length || "N/A"}(feet) * 15{" "}
+                  {/* {requestData.length || "N/A"}(feet) * 15{" "} */}
+                  {requestData?.foundationDug
+                    ? requestData?.foundationDug
+                    : "N/A"}
                   <span className="text-xs text-[#1E1E1E]-500">in feet</span>
                 </span>
               </div>
 
               {/* Description */}
-              <div className="flex flex-col gap-1 ">
-                <span className="text-lg font-semibold text-[#1E1E1E]">
-                  Description
-                </span>
-                <span className="text-base text-gray-900">
-                  {requestData.description || "N/A"}
-                </span>
+              <div className="flex justify-between ">
+                <div className="w-[50%]">
+                  <span className="text-lg font-semibold text-[#1E1E1E]">
+                    Description
+                  </span>
+                  <div className="mt-8">
+                    <span className="text-base text-gray-900 ">
+                      {requestData.description || "N/A"}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  {" "}
+                  <div className="flex items-center justify-center">
+                    <span className="text-lg font-semibold text-[#1E1E1E]">
+                      PDF / Image
+                    </span>
+                  </div>
+                  <div className="mt-8">
+                    <span>
+                      <ViewPDF
+                        // type="image"
+                        // url="https://firebasestorage.googleapis.com/v0/b/bcm-app-f5ba8.firebasestorage.app/o/images%2F0b585db8-e38d-4bab-88b1-92504761bf89.jpg1737380934617?alt=media&token=694c90c3-a849-4963-939b-c5ef379bff04"
+                        type={requestData?.mediaLink?.type}
+                        url={requestData?.mediaLink?.link}
+                      >
+                        <Button>View</Button>
+                      </ViewPDF>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
             {/* Upload Documents Button */}
@@ -316,8 +366,8 @@ const RequestProfile = () => {
           </div> */}
 
             {requestData?.status === "Uploaded" ? null : (
-                <div className="mt-8 flex flex-col items-center">
-                  {/* <Upload
+              <div className="mt-8 flex flex-col items-center">
+                {/* <Upload
                 accept="application/pdf"
                 onChange={handleChange}
                 showUploadList={true} // Hide default upload list
@@ -338,42 +388,42 @@ const RequestProfile = () => {
                 </Button>
               </Upload> */}
 
-                  {/* <Upload
+                {/* <Upload
                   accept="application/pdf"
                   onChange={handleFileChange}
                   // showUploadList={true}
                   showUploadList={!!file}
                   beforeUpload={() => false}
                 > */}
-                  <Upload
-                    accept="application/pdf"
-                    beforeUpload={beforeUpload}
-                    showUploadList={true}
-                    onChange={handleChange}
-                    customRequest={({ file, onSuccess }) => {
-                      onSuccess("ok");
-                    }}
-                  >
-                    <Button
-                      type="primary"
-                      className="bg-red-500 custom-upload-button"
-                      style={{
-                        width: "400px",
-                      }}
-                    >
-                      Upload Documents..
-                    </Button>
-                  </Upload>
+                <Upload
+                  accept="application/pdf"
+                  beforeUpload={beforeUpload}
+                  showUploadList={true}
+                  onChange={handleChange}
+                  customRequest={({ file, onSuccess }) => {
+                    onSuccess("ok");
+                  }}
+                >
                   <Button
                     type="primary"
-                    onClick={handleSubmit}
-                    style={{ marginTop: "20px" }}
+                    className="bg-red-500 custom-upload-button"
+                    style={{
+                      width: "400px",
+                    }}
                   >
-                    Submit
+                    Upload Documents..
                   </Button>
-                  {/* {file && ( */}
-                  {/* )} */}
-                </div>
+                </Upload>
+                <Button
+                  type="primary"
+                  onClick={handleSubmit}
+                  style={{ marginTop: "20px" }}
+                >
+                  Submit
+                </Button>
+                {/* {file && ( */}
+                {/* )} */}
+              </div>
             )}
           </div>
         </Spin>
