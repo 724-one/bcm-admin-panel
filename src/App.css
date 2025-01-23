@@ -1,177 +1,224 @@
  #root {
-  /* max-width: 1280px;
+   /* max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center; */
-  overflow: hidden;
-}
+   overflow: hidden;
+ }
 
 
-.sidebar-hidden::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
-}
+ .sidebar-hidden::-webkit-scrollbar {
+   display: none;
+   /* Hide scrollbar for Chrome, Safari, and Opera */
+ }
 
-.sidebar-hidden {
-  -ms-overflow-style: none;  /* Hide scrollbar for Internet Explorer and Edge */
-  scrollbar-width: none;  /* Hide scrollbar for Firefox */
-}
+ .sidebar-hidden {
+   -ms-overflow-style: none;
+   /* Hide scrollbar for Internet Explorer and Edge */
+   scrollbar-width: none;
+   /* Hide scrollbar for Firefox */
+ }
 
-.custom-input::placeholder {
-  color: rgba(21, 21, 21, 0.5); /* Change this to your desired color */
-  font-size: 12px; /* Change this to your desired font size */
-}
-
-
-.no-focus:hover,
-.no-focus:focus {
-  border-color: transparent !important; /* Remove border color on hover and focus */
-  box-shadow: none !important; /* Remove box shadow on focus */
-}
-
-.no-focus .ant-upload {
-  border-color: transparent !important; /* Remove border color on hover */
-}
-
-.no-focus .ant-upload:hover {
-  border-color: transparent !important; /* Remove border color on hover */
-}
+ .custom-input::placeholder {
+   color: rgba(21, 21, 21, 0.5);
+   /* Change this to your desired color */
+   font-size: 12px;
+   /* Change this to your desired font size */
+ }
 
 
+ .no-focus:hover,
+ .no-focus:focus {
+   border-color: transparent !important;
+   /* Remove border color on hover and focus */
+   box-shadow: none !important;
+   /* Remove box shadow on focus */
+ }
 
+ .no-focus .ant-upload {
+   border-color: transparent !important;
+   /* Remove border color on hover */
+ }
 
-
-/* add caluculator */
-
-
-.addCalc-input ::placeholder {
-    color: rgba(21, 21, 21, 0.5); /* Tailwind's gray-500 color */
-    
-  
-}
-
-/* src/App.css */
-
-.addCalc-input {
-  border: 1px solid gray !important; /* Set the initial border color */
-  box-shadow: none !important; /* Remove box shadow */
-  outline: none !important; /* Remove outline */
-}
-
-.addCalc-input:hover,
-.addCalc-input:focus {
-  border-color: gray !important; /* Keep the border color the same on hover and focus */
-  box-shadow: none !important; /* Ensure no box shadow on focus */
-  outline: none !important; /* Remove outline on focus */
-}
-
-
-/* src/App.css */
-
-input.addCalc-input {
-  border: 1px solid gray !important; /* Set the initial border color */
-  box-shadow: none !important; /* Remove box shadow */
-  outline: none !important; /* Remove outline */
-}
-
-input.addCalc-input:hover,
-input.addCalc-input:focus {
-  border-color: gray !important; /* Keep the border color the same on hover and focus */
-  box-shadow: none !important; /* Ensure no box shadow on focus */
-  outline: none !important; /* Remove outline on focus */
-}
+ .no-focus .ant-upload:hover {
+   border-color: transparent !important;
+   /* Remove border color on hover */
+ }
 
 
 
 
-/* Add this to your specific component CSS file */
-.custom-textarea {
-  border: 1px solid gray; /* Set the border color */
-  box-shadow: none; /* Remove box shadow */
-  outline: none; /* Remove outline */
-}
 
-.custom-textarea:hover,
-.custom-textarea:focus {
-  border-color: gray; /* Keep the border color the same on hover and focus */
-  box-shadow: none; /* Ensure no box shadow on focus */
-  outline: none; /* Remove outline on focus */
-}
+ /* add caluculator */
 
 
-
-.custom-select .ant-select-selector {
-  border: none !important; /* Remove border */
-  background-color: rgba(232, 30, 30, 0.17) !important; /* Set background color */
-  color: #E81E1E !important; /* Set text color */
-  border-radius: 20px; /* Match rounded corners */
-  padding: 5px 10px; /* Match padding */
-  font-family: Poppins;
-font-size: 14px;
-font-weight: 500;
-line-height: 21px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
-}
-
-.custom-select .ant-select-arrow {
-  
-  color: rgba(27, 31, 38, 0.72) ; /* Change this to your desired color */
-}
-
-.custom-select .ant-select-selector:focus {
-  border: none !important; /* Ensure no border on focus */
-  box-shadow: none !important; /* Remove any box shadow */
-}
+ .addCalc-input ::placeholder {
+   color: rgba(21, 21, 21, 0.5);
+   /* Tailwind's gray-500 color */
 
 
-.custom-upload-button {
-  color: white !important; /* Ensure text color is white */
-  background-color: rgba(232, 30, 30, 1) !important;
-  border-color: transparent !important; /* Remove border color */
-  box-shadow: none !important; /* Remove box shadow */
-}
+ }
 
-.custom-upload-button:hover,
-.custom-upload-button:focus,
-.custom-upload-button:active {
-  color: white !important; /* Keep text color white on hover, focus, and active */
-  background-color: rgba(232, 30, 30, 1) !important; /* Keep background color consistent */
-  border-color: transparent !important; /* Keep border color transparent */
-  box-shadow: none !important; /* Keep box shadow removed */
-}
+ /* src/App.css */
 
-/* Additional styles to override Ant Design default button styles */
-.custom-upload-button.ant-btn-primary:hover,
-.custom-upload-button.ant-btn-primary:focus,
-.custom-upload-button.ant-btn-primary:active {
-  color: white !important; /* Ensure text color remains white */
-  background-color: rgba(232, 30, 30, 1) !important; /* Ensure background color remains the same */
-  border-color: transparent !important; /* Ensure border color remains transparent */
-}
+ .addCalc-input {
+   border: 1px solid gray !important;
+   /* Set the initial border color */
+   box-shadow: none !important;
+   /* Remove box shadow */
+   outline: none !important;
+   /* Remove outline */
+ }
+
+ .addCalc-input:hover,
+ .addCalc-input:focus {
+   border-color: gray !important;
+   /* Keep the border color the same on hover and focus */
+   box-shadow: none !important;
+   /* Ensure no box shadow on focus */
+   outline: none !important;
+   /* Remove outline on focus */
+ }
 
 
-/* Add this to your CSS file */
-.ant-modal {
-  top: 30% !important; /* Adjust this value as needed */
-  /* left: 80%; */
-  margin-left: 30%;
-  /* transform: translate(50% , 40%); Center the modal vertically */
-}
+ /* src/App.css */
 
-.ant-modal-root .ant-modal-wrap {
-  position: fixed;
-  left: 35%;
-  /* inset: 0; */
-  z-index: 1000;
-  overflow: hidden !important;
-  outline: 0;
-  -webkit-overflow-scrolling: touch;
-}
+ input.addCalc-input {
+   border: 1px solid gray !important;
+   /* Set the initial border color */
+   box-shadow: none !important;
+   /* Remove box shadow */
+   outline: none !important;
+   /* Remove outline */
+ }
+
+ input.addCalc-input:hover,
+ input.addCalc-input:focus {
+   border-color: gray !important;
+   /* Keep the border color the same on hover and focus */
+   box-shadow: none !important;
+   /* Ensure no box shadow on focus */
+   outline: none !important;
+   /* Remove outline on focus */
+ }
 
 
-/*.logo {
+
+
+ /* Add this to your specific component CSS file */
+ .custom-textarea {
+   border: 1px solid gray;
+   /* Set the border color */
+   box-shadow: none;
+   /* Remove box shadow */
+   outline: none;
+   /* Remove outline */
+ }
+
+ .custom-textarea:hover,
+ .custom-textarea:focus {
+   border-color: gray;
+   /* Keep the border color the same on hover and focus */
+   box-shadow: none;
+   /* Ensure no box shadow on focus */
+   outline: none;
+   /* Remove outline on focus */
+ }
+
+
+
+ .custom-select .ant-select-selector {
+   border: none !important;
+   /* Remove border */
+   background-color: rgba(232, 30, 30, 0.17) !important;
+   /* Set background color */
+   color: #E81E1E !important;
+   /* Set text color */
+   border-radius: 20px;
+   /* Match rounded corners */
+   padding: 5px 10px;
+   /* Match padding */
+   font-family: Poppins;
+   font-size: 14px;
+   font-weight: 500;
+   line-height: 21px;
+   text-align: left;
+   text-underline-position: from-font;
+   text-decoration-skip-ink: none;
+
+ }
+
+ .custom-select .ant-select-arrow {
+
+   color: rgba(27, 31, 38, 0.72);
+   /* Change this to your desired color */
+ }
+
+ .custom-select .ant-select-selector:focus {
+   border: none !important;
+   /* Ensure no border on focus */
+   box-shadow: none !important;
+   /* Remove any box shadow */
+ }
+
+
+ .custom-upload-button {
+   color: white !important;
+   /* Ensure text color is white */
+   background-color: rgba(232, 30, 30, 1) !important;
+   border-color: transparent !important;
+   /* Remove border color */
+   box-shadow: none !important;
+   /* Remove box shadow */
+ }
+
+ .custom-upload-button:hover,
+ .custom-upload-button:focus,
+ .custom-upload-button:active {
+   color: white !important;
+   /* Keep text color white on hover, focus, and active */
+   background-color: rgba(232, 30, 30, 1) !important;
+   /* Keep background color consistent */
+   border-color: transparent !important;
+   /* Keep border color transparent */
+   box-shadow: none !important;
+   /* Keep box shadow removed */
+ }
+
+ /* Additional styles to override Ant Design default button styles */
+ .custom-upload-button.ant-btn-primary:hover,
+ .custom-upload-button.ant-btn-primary:focus,
+ .custom-upload-button.ant-btn-primary:active {
+   color: white !important;
+   /* Ensure text color remains white */
+   background-color: rgba(232, 30, 30, 1) !important;
+   /* Ensure background color remains the same */
+   border-color: transparent !important;
+   /* Ensure border color remains transparent */
+ }
+
+
+ /* Add this to your CSS file */
+ .ant-modal {
+   top: 30% !important;
+   /* Adjust this value as needed */
+   /* left: 80%; */
+   margin-left: 30%;
+   /* transform: translate(50% , 40%); Center the modal vertically */
+ }
+
+ .ant-modal-root .ant-modal-wrap {
+   position: fixed;
+   left: 35%;
+   /* inset: 0; */
+   z-index: 1000;
+   overflow: hidden !important;
+   outline: 0;
+   -webkit-overflow-scrolling: touch;
+ }
+
+
+ /*.logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
@@ -210,3 +257,6 @@ text-decoration-skip-ink: none;
 
 
 
+ :where(.css-dev-only-do-not-override-1htoz2s).ant-spin .ant-spin-dot-spin {
+   color: red !important;
+ }

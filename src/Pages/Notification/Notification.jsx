@@ -183,7 +183,7 @@ import { useNavigate } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/FirebaseConfig";
 import NotificationCard from "../../Components/Common/Card/NotificationCard";
-import { Modal, message } from "antd"; // Import Modal for confirmation
+import { Modal, Spin, message } from "antd"; // Import Modal for confirmation
 import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
 const Notification = () => {
   const navigate = useNavigate();
@@ -197,7 +197,7 @@ const Notification = () => {
       const querySnapshot = await getDocs(notificationsRef);
       const items = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
       setNotificationItems(items);
       setLoading(false);
@@ -270,9 +270,12 @@ const Notification = () => {
       </div>
 
       {/* Grid Layout */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pb-[40px]">
         {loading ? (
-          <div>Loading...</div>
+          <div className="ml-[150%] mt-[50%]">
+            <Spin />
+          </div>
         ) : filteredNotifications.length === 0 ? (
           <div>No notifications found</div>
         ) : (

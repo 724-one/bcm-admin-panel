@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/FirebaseConfig";
 import CalculatorCard from "../../Components/Common/Card/CalulatorCard";
-import { Modal, message } from "antd";
+import { Modal, Spin, message } from "antd";
 import { useSearchContext } from "../../Components/SearchContext/SearchProvider";
 import "../../styles/Button/Button.scss";
 const Calculator = () => {
@@ -18,7 +18,7 @@ const Calculator = () => {
       const querySnapshot = await getDocs(collection(db, "calculators"));
       const items = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
       setCalculatorItems(items);
       setLoading(false);
@@ -44,7 +44,7 @@ const Calculator = () => {
       style: {
         // transform: "translate(110%, 40%)", // Start from the left
         // left: "0%", // Position it off-screen to the left
-        transition: "transform 0.3s ease-in-out" // Add transition for smooth effect
+        transition: "transform 0.3s ease-in-out", // Add transition for smooth effect
       },
       onOk: async () => {
         try {
@@ -59,7 +59,7 @@ const Calculator = () => {
           console.error("Error deleting calculator:", error);
           message.error("Failed to delete calculator");
         }
-      }
+      },
     });
   };
 
@@ -96,7 +96,9 @@ const Calculator = () => {
       {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 pb-[40px] gap-6">
         {loading ? (
-          <div>Loading...</div>
+          <div className="ml-[190%] mt-[70%]">
+            <Spin />
+          </div>
         ) : filteredCalculators.length === 0 ? (
           <div>No calculators found</div>
         ) : (

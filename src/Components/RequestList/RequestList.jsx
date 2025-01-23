@@ -316,7 +316,7 @@ const RequestList = () => {
       const requests = querySnapshot.docs.map((doc) => ({
         key: doc.id,
         requestNumber: doc.data().requestNumber || "001",
-        requestName: doc.data().name || "N/A",
+        requestName: doc.data().requestName || "N/A",
         dateTime: doc.data().dateSubmitted || "N/A",
         status: doc.data().status || doc.data()["status "] || "Pending",
       }));
@@ -338,17 +338,20 @@ const RequestList = () => {
 
   const columns = [
     {
-      title: "Number of Request",
+      title: "Request No",
       dataIndex: "requestNumber",
       key: "requestNumber",
       className: "font-medium text-gray-900",
+      render: (text, record, index) => index + 1, // Renders 1, 2, 3, ...
     },
+    
     {
       title: "Request Name",
       dataIndex: "requestName",
       key: "requestName",
       className: "font-medium text-gray-900",
     },
+
     {
       title: "Date & Time",
       dataIndex: "dateTime",

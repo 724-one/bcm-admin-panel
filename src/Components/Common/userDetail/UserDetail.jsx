@@ -2,6 +2,8 @@ import React from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import { image } from "../../../assets/images";
+
 const UserDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -54,10 +56,8 @@ const UserDetail = () => {
           ) : (
             <Avatar
               size={56}
-              style={{ backgroundColor: "red", color: "white" }}
-            >
-              N/A
-            </Avatar>
+              src={image?.User1}
+            ></Avatar>
           )}
           {/* <Avatar size={56} src={userData?.photo || null}>
             {userData?.photo ? null : "NO"}

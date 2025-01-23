@@ -216,7 +216,8 @@ const CustomTable = ({
   showDeleteIcon = false,
   DeleteIcon,
   onRowClick,
-  pagination = true // Add pagination prop
+  loading,
+  pagination = true, // Add pagination prop
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(12); // Default page size
@@ -308,13 +309,14 @@ const CustomTable = ({
   return (
     <div className="table-container w-full h-full">
       <Table
+        loading={loading}
         columns={dynamicColumns}
         dataSource={data}
         pagination={{
           current: currentPage,
           pageSize: pageSize,
           total: data.length,
-          onChange: handleTableChange
+          onChange: handleTableChange,
         }}
         bordered
         rowClassName={(record, index) =>
@@ -322,7 +324,7 @@ const CustomTable = ({
         }
         headerRowClassName="custom-header"
         onRow={(record) => ({
-          onClick: () => onRowClick && onRowClick(record)
+          onClick: () => onRowClick && onRowClick(record),
         })}
       />
 
@@ -336,7 +338,7 @@ const CustomTable = ({
             options={[
               { value: "12", label: "12" },
               { value: "24", label: "24" },
-              { value: "36", label: "36" }
+              { value: "36", label: "36" },
             ]}
             onChange={(value) => setPageSize(value)}
           />
@@ -359,11 +361,12 @@ const CustomTable = ({
               { value: "02", label: "02" },
               { value: "03", label: "03" },
               { value: "04", label: "04" },
-              { value: "05", label: "05" }
+              { value: "05", label: "05" },
             ]}
           />
           <span className="text-sm text-[#8A8A8A]">of {currentPage} pages</span>
-          <div className="flex ml-2">
+          {/* old next and previous buttons */}
+          {/* <div className="flex ml-2">
             <button
               className="p-1 hover:bg-gray-50"
               style={{ borderLeft: "1.4px solid #E9E9E9" }}
@@ -381,6 +384,38 @@ const CustomTable = ({
               }
             >
               <MdKeyboardArrowRight className="h-5 w-5 text-gray-600" />
+            </button>
+          </div> */}
+          <div className="flex ml-2">
+            <button
+              className="p-1 hover:bg-gray-50"
+              style={{ borderLeft: "1.4px solid #E9E9E9" }}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <MdKeyboardArrowLeft
+                className={`h-5 w-5 ${
+                  currentPage === 1 ? "text-gray-300" : "text-gray-600"
+                }`}
+              />
+            </button>
+            <button
+              className="p-1 hover:bg-gray-50"
+              style={{ borderLeft: "1.4px solid #E9E9E9" }}
+              onClick={() =>
+                setCurrentPage((prev) =>
+                  Math.min(prev + 1, Math.ceil(data.length / pageSize))
+                )
+              }
+              disabled={currentPage === Math.ceil(data.length / pageSize)}
+            >
+              <MdKeyboardArrowRight
+                className={`h-5 w-5 ${
+                  currentPage === Math.ceil(data.length / pageSize)
+                    ? "text-gray-300"
+                    : "text-gray-600"
+                }`}
+              />
             </button>
           </div>
         </div>

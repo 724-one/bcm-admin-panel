@@ -8,6 +8,7 @@ import "../../../src/App.css";
 import { Select, Button, message, Upload, Avatar, Spin } from "antd";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import ViewPDF from "../modals/ViewPDF";
+import { image } from "../../assets/images";
 const RequestProfile = () => {
   const { id } = useParams(); // Change userId to id to match the route param
   const navigate = useNavigate();
@@ -192,15 +193,7 @@ const RequestProfile = () => {
                 className="h-14 w-14 rounded-full object-cover"
               />
             ) : (
-              <Avatar
-                size={56}
-                style={{
-                  color: "white",
-                  backgroundColor: "rgba(232, 30, 30, 1)",
-                }}
-              >
-                N/A
-              </Avatar>
+              <Avatar size={56} src={image?.User1}></Avatar>
             )
           ) : (
             <p>Loading...</p> // Placeholder while data is loading
@@ -293,7 +286,7 @@ const RequestProfile = () => {
                   Strip Foundation
                 </span>
                 <span className="text-base font-normal text-gray-900">
-                  {requestData.length || "N/A"}(feet) * 15{" "}
+                  {requestData.length || "N/A"} (feet) * 15{" "}
                   <span className="text-xs text-[#1E1E1E]-500">in feet</span>
                 </span>
               </div>
@@ -320,7 +313,7 @@ const RequestProfile = () => {
                   {requestData?.foundationDug
                     ? requestData?.foundationDug
                     : "N/A"}
-                  <span className="text-xs text-[#1E1E1E]-500">in feet</span>
+                  {/* <span className="text-xs text-[#1E1E1E]-500">in feet</span> */}
                 </span>
               </div>
 

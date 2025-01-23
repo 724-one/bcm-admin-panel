@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Space, Button, Tooltip, message } from "antd";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, query, where } from "firebase/firestore";
 import { db } from "../../firebase/FirebaseConfig";
 import CustomTable from "../../Components/Common/Table/CustomTable";
 import "../../styles/Users/Users.scss";
@@ -136,7 +136,6 @@ const Users = () => {
     },
   ];
 
-  // // Fetch users from Firestore
   // const fetchUsers = async () => {
   //   try {
   //     setLoading(true);
@@ -144,37 +143,55 @@ const Users = () => {
   //     const userSnapshot = await getDocs(usersCollection);
 
   //     const users = userSnapshot.docs.map((doc) => ({
-  //       key: doc.id,
+  //       key: doc.id, // Keep the original Firebase document ID
+  //       id: doc.id, // Also store it as id for reference
   //       ...doc.data(),
   //       createdAt:
   //         doc.data().createdAt?.toDate().toISOString().split("T")[0] || "",
-  //       requests: `${doc.data().totalRequests || 0} Requests`
+  //       requests: `${doc.data().totalRequests || 0} Requests`,
   //     }));
 
   //     setUserData(users);
   //     setTotalUsers(users.length);
   //   } catch (error) {
   //     console.error("Error fetching users:", error);
+  //     message.error("Failed to fetch users");
   //   } finally {
   //     setLoading(false);
   //   }
   // };
 
-  // Update the fetchUsers function to preserve the original document ID
+
   const fetchUsers = async () => {
     try {
       setLoading(true);
       const usersCollection = collection(db, "users");
       const userSnapshot = await getDocs(usersCollection);
 
-      const users = userSnapshot.docs.map((doc) => ({
-        key: doc.id, // Keep the original Firebase document ID
-        id: doc.id, // Also store it as id for reference
-        ...doc.data(),
-        createdAt:
-          doc.data().createdAt?.toDate().toISOString().split("T")[0] || "",
-        requests: `${doc.data().totalRequests || 0} Requests`,
-      }));
+      // Fetch users and their requests count
+      const users = await Promise.all(
+        userSnapshot.docs.map(async (doc) => {
+          const userData = doc.data();
+          const userId = doc.id;
+
+          // Fetch the count of requests for the current user
+          const requestsQuery = query(
+            collection(db, "requests"),
+            where("userUid", "==", userId)
+          );
+          const requestsSnapshot = await getDocs(requestsQuery);
+          const requestsCount = requestsSnapshot.size;
+
+          return {
+            key: userId, // Firebase document ID
+            id: userId,
+            ...userData,
+            createdAt:
+              userData.createdAt?.toDate().toISOString().split("T")[0] || "",
+            requests: `${requestsCount} Requests`,
+          };
+        })
+      );
 
       setUserData(users);
       setTotalUsers(users.length);
