@@ -29,7 +29,7 @@ const RequestProfile = () => {
         const userData = userDoc.data();
         setSingleUserData(userData);
 
-        console.log("Fetched user data:", singgleUserData);
+        console.log("Fetched user data:", userData);
       } else {
         console.warn("No user found with the given ID.");
       }
@@ -42,7 +42,7 @@ const RequestProfile = () => {
     fetchUserProfile();
   }, []);
 
-  console.log("requestData", requestData);
+  // console.log("requestData", requestData);
   // If no data is available, show error state
   if (!requestData) {
     return (
@@ -196,7 +196,9 @@ const RequestProfile = () => {
               <Avatar size={56} src={image?.User1}></Avatar>
             )
           ) : (
-            <p>Loading...</p> // Placeholder while data is loading
+            <Avatar size={56} src={user1}></Avatar>
+
+            // Placeholder while data is loading
           )}
         </div>
 
@@ -264,14 +266,14 @@ const RequestProfile = () => {
               </Select>
             </div>
 
-            <div className="flex gap-2 items-center">
+            {/* <div className="flex gap-2 items-center">
               <span className="text-lg font-semibold text-[#1E1E1E]">
                 Number Of Request:
               </span>
               <span className="text-base text-[#1E1E1E] ">
                 {requestData.requests || "N/A"}
               </span>
-            </div>
+            </div> */}
           </div>
           {/* Request Data Section */}
           <div className="mt-10 border-t border-[#E0E0E0] pt-10">
@@ -360,34 +362,7 @@ const RequestProfile = () => {
 
             {requestData?.status === "Uploaded" ? null : (
               <div className="mt-8 flex flex-col items-center">
-                {/* <Upload
-                accept="application/pdf"
-                onChange={handleChange}
-                showUploadList={true} // Hide default upload list
-                beforeUpload={() => false} // Prevent automatic upload
-              >
-                <Button
-                  type="primary"
-                  className="bg-red-500  custom-upload-button"
-                  style={{
-                    width: "400px",
-                    //   color: "white", // Set text color to white
-                    //   borderColor: "transparent", // Remove border color
-                    //   backgroundColor: "#ff4d4f", // Set background color (red)
-                    //   boxShadow: "none"
-                  }}
-                >
-                  Upload Documents..
-                </Button>
-              </Upload> */}
 
-                {/* <Upload
-                  accept="application/pdf"
-                  onChange={handleFileChange}
-                  // showUploadList={true}
-                  showUploadList={!!file}
-                  beforeUpload={() => false}
-                > */}
                 <Upload
                   accept="application/pdf"
                   beforeUpload={beforeUpload}
@@ -401,10 +376,10 @@ const RequestProfile = () => {
                     type="primary"
                     className="bg-red-500 custom-upload-button"
                     style={{
-                      width: "400px",
+                      width: "200px",
                     }}
                   >
-                    Upload Documents..
+                    Upload Document
                   </Button>
                 </Upload>
                 <Button
