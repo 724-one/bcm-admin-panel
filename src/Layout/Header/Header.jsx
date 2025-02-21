@@ -56,11 +56,11 @@ const Header = () => {
           <div style={{ flexGrow: 1 }}></div>
         )}
 
-        <div className="right-icons">
+        <div className="">
           {/* <div className="notify">
             <img src={bell} className="cursor-set w-[25px] h-[25px]" />
           </div> */}
-          <div className="user-a">A</div>
+          <div className="bg-[#e81e1e] text-white px-4 py-2 rounded">Admin</div>
         </div>
       </div>
       <Modal
