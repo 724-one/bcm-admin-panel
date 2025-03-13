@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { CloseOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { image } from "../../../assets/images";
 
@@ -10,9 +10,9 @@ const UserDetail = () => {
   const location = useLocation();
   const userData = location.state?.userData;
 
-  console.log("Location state:", location.state);
-  console.log("User data:", userData);
-  console.log("ID:", id);
+  // console.log("Location state:", location.state);
+  // console.log("User data:", userData);
+  // console.log("ID:", id);
 
   if (!userData) {
     return (
@@ -25,18 +25,16 @@ const UserDetail = () => {
   return (
     <div className="h-full w-full bg-gray-50 p-8">
       {/* Page Title */}
-      <h1 className="mb-6 text-2xl font-bold text-[#1E1E1E]">User Profile</h1>
+      <h1 className="mb-6 text-2xl font-bold text-[#1E1E1E]">
+        <ArrowLeftOutlined
+          className="text-gray-600 mr-8"
+          onClick={() => navigate("/users")}
+        />
+        User Profile
+      </h1>
 
       {/* White Content Card */}
       <div className="relative rounded-lg bg-white p-8 2xl:h-[676px] lg:h-[400px] md:h-[380px] shadow-sm">
-        {/* Close Button */}
-        <button
-          onClick={() => navigate("/users")}
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full"
-        >
-          <CloseOutlined className="text-gray-600" />
-        </button>
-
         {/* User Header with Image */}
         <div className="mb-12 flex w-[44%] ml-[55px] justify-between">
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
@@ -54,10 +52,7 @@ const UserDetail = () => {
               className="h-14 w-14 rounded-full object-cover"
             />
           ) : (
-            <Avatar
-              size={56}
-              src={image?.User1}
-            ></Avatar>
+            <Avatar size={56} src={image?.User1}></Avatar>
           )}
           {/* <Avatar size={56} src={userData?.photo || null}>
             {userData?.photo ? null : "NO"}

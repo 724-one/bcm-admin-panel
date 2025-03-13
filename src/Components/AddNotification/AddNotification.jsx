@@ -175,7 +175,11 @@
 
 import React, { useState } from "react";
 import { Input, Button, Upload, message } from "antd";
-import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { db, storage } from "../../firebase/FirebaseConfig";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
@@ -257,90 +261,93 @@ const AddNotification = () => {
   };
 
   return (
-    <div className="flex h-full w-full items-center justify-center bg-gray-50 p-6 overflow-y-auto">
-      <div className="relative mt-[180px] w-[500px] rounded-lg bg-white p-8 shadow-sm">
-        <button
-          onClick={() => navigate("/notification")}
-          className="absolute right-4 top-4 h-8 w-8 flex items-center justify-center rounded-full"
-        >
-          <CloseOutlined className="text-gray-600" />
-        </button>
-        <h1 className="mb-8 text-[22px] font-semibold text-gray-900">
-          Add new Notification
-        </h1>
+    <>
+      <div className="bg-gray-50 py-6 px-10 text-2xl">
+        {" "}
+        <ArrowLeftOutlined
+          className="text-gray-600 "
+          onClick={() => navigate(-1)}
+        />
+      </div>
+      <div className="flex h-full w-full items-center justify-center bg-gray-50 p-6 overflow-y-auto">
+        <div className="relative mt-[180px] w-[500px] rounded-lg bg-white p-8 shadow-sm">
+          <h1 className="mb-8 text-[22px] font-semibold text-gray-900">
+            {formData?.title ? " Edit Notification" : "Add Notification"}
+          </h1>
 
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-gray-700">Title:</label>
-            <Input
-              placeholder="Enter Title"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              className="h-11 rounded-md custom-input-des"
-            />
-          </div>
-
-          {formData.url && (
-            <div className="flex items-center justify-between">
-              <span className="text-gray-800">
-                {formData.url.split("/").pop()}
-              </span>
-              <DeleteOutlined
-                className="text-red-500 cursor-pointer"
-                onClick={() =>
-                  setFormData({ ...formData, url: "", file: null })
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-bold text-gray-700">Title:</label>
+              <Input
+                placeholder="Enter Title"
+                value={formData.title}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
                 }
+                className="h-11 rounded-md custom-input-des"
               />
             </div>
-          )}
 
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-gray-700">
-              Upload Image:
-            </label>
-            <Upload
-              accept="image/*"
-              maxCount={1}
-              beforeUpload={(file) => {
-                setFormData({ ...formData, file });
-                return false;
-              }}
-              className="w-full"
+            {formData.url && (
+              <div className="flex items-center justify-between">
+                <span className="text-gray-800">
+                  {formData.url.split("/").pop()}
+                </span>
+                <DeleteOutlined
+                  className="text-red-500 cursor-pointer"
+                  onClick={() =>
+                    setFormData({ ...formData, url: "", file: null })
+                  }
+                />
+              </div>
+            )}
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-bold text-gray-700">
+                Upload Image:
+              </label>
+              <Upload
+                accept="image/*"
+                maxCount={1}
+                beforeUpload={(file) => {
+                  setFormData({ ...formData, file });
+                  return false;
+                }}
+                className="w-full"
+              >
+                <Button className="flex h-11 w-full items-center justify-start border-gray-300 text-gray-500">
+                  <img src={UploadImg} alt="upload" /> Upload Your Image
+                </Button>
+              </Upload>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-bold text-gray-700">
+                Description:
+              </label>
+              <TextArea
+                placeholder="Description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                className="min-h-[120px] rounded-md custom-input-des"
+                rows={4}
+              />
+            </div>
+
+            <Button
+              type="primary"
+              onClick={handleSubmit}
+              loading={loading}
+              className="mt-4 h-11 w-full bg-red-500 text-white text-[18px] font-semibold"
             >
-              <Button className="flex h-11 w-full items-center justify-start border-gray-300 text-gray-500">
-                <img src={UploadImg} alt="upload" /> Upload Your Image
-              </Button>
-            </Upload>
+              {notification ? "Save Changes" : "Add New"}
+            </Button>
           </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-gray-700">
-              Description:
-            </label>
-            <TextArea
-              placeholder="Description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              className="min-h-[120px] rounded-md custom-input-des"
-              rows={4}
-            />
-          </div>
-
-          <Button
-            type="primary"
-            onClick={handleSubmit}
-            loading={loading}
-            className="mt-4 h-11 w-full bg-red-500 text-white text-[18px] font-semibold"
-          >
-            {notification ? "Save Changes" : "Add New"}
-          </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

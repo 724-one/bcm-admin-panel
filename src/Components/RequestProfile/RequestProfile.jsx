@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { CloseOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  BackwardOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import user1 from "../../assets/Images/user1.png";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase/FirebaseConfig";
@@ -167,19 +171,15 @@ const RequestProfile = () => {
     <div className="h-full w-full bg-gray-50 p-12 overflow-y-auto">
       {/* Page Title */}
       <h1 className="mb-6 text-2xl font-bold text-[#1E1E1E]">
+        <ArrowLeftOutlined
+          className="text-gray-600 mr-8"
+          onClick={() => navigate(-1)}
+        />
         Requester Profile
       </h1>
 
       {/* White Content Card */}
       <div className="relative rounded-lg bg-white p-[60px] shadow-sm">
-        {/* Close Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full "
-        >
-          <CloseOutlined className="text-gray-600" />
-        </button>
-
         {/* User Header with Image */}
         <div className="mb-12 flex w-[50%]  justify-between">
           <h2 className="text-xl font-semibold text-[#1E1E1E]">
@@ -362,7 +362,6 @@ const RequestProfile = () => {
 
             {requestData?.status === "Uploaded" ? null : (
               <div className="mt-8 flex flex-col items-center">
-
                 <Upload
                   accept="application/pdf"
                   beforeUpload={beforeUpload}

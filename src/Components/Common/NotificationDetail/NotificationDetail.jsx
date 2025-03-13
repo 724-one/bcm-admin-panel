@@ -49,7 +49,7 @@
 // src/Pages/Notification/NotificationDetail.jsx
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { message, Modal } from "antd";
 import { db } from "../../../firebase/FirebaseConfig";
 import { doc, deleteDoc } from "firebase/firestore";
@@ -78,7 +78,7 @@ const NotificationDetail = () => {
       style: {
         // transform: "translate(110%, 40%)", // Start from the left
         // left: "0%", // Position it off-screen to the left
-        transition: "transform 0.3s ease-in-out" // Add transition for smooth effect
+        transition: "transform 0.3s ease-in-out", // Add transition for smooth effect
       },
       onOk: async () => {
         try {
@@ -89,7 +89,7 @@ const NotificationDetail = () => {
           console.error("Error deleting notification:", error);
           message.error("Failed to delete notification");
         }
-      }
+      },
     });
   };
 
@@ -98,6 +98,10 @@ const NotificationDetail = () => {
       {" "}
       {/* P Title */}
       <h1 className="mb-6 font-poppins text-[22px] font-semibold  text-left text-[#1E1E1E]">
+        <ArrowLeftOutlined
+          className="text-gray-600 mr-8"
+          onClick={() => navigate(-1)}
+        />{" "}
         {notification.title}
       </h1>
       <div className="relative  rounded-lg bg-white p-8 2xl:h-[676px] lg:h-[500px] md:h-[380px] shadow-sm  mb-10">
